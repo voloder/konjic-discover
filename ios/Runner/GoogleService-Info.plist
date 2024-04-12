@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAVUtKxRlJ29e6FTucV_HRiE8E93L5-YeM</string>
+	<key>GCM_SENDER_ID</key>
+	<string>342680650401</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>ba.sskonjic.discover</string>
+	<key>PROJECT_ID</key>
+	<string>konjic-discover</string>
+	<key>STORAGE_BUCKET</key>
+	<string>konjic-discover.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:342680650401:ios:75824127fa2aa6f623e6e0</string>
+	<key>DATABASE_URL</key>
+	<string>https://konjic-discover-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>

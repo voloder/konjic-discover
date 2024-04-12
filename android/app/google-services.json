@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "342680650401",
+    "firebase_url": "https://konjic-discover-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "konjic-discover",
+    "storage_bucket": "konjic-discover.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:342680650401:android:eee246ab2644f09c23e6e0",
+        "android_client_info": {
+          "package_name": "ba.sskonjic.discover"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDC0_-toT7jWECd6QnvieYXYlv9kpN15I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
