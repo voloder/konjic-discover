@@ -6,11 +6,7 @@ import 'entities/sekcija.dart';
 import 'firebase_options.dart';
 
 
-class Backend {
-  static final Backend _instance = Backend._();
-  factory Backend() => _instance;
-  Backend._();
-
+class Backend  {
   late List<Kategorija> kategorije;
   late List<Lokacija> lokacije;
   late List<Sekcija> sekcije;
@@ -19,7 +15,7 @@ class Backend {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    //FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true);
+    FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true);
   }
 
   Future<void> ucitaj() async {
