@@ -1,5 +1,7 @@
 import 'package:discover/main.dart';
 import 'package:discover/postavke.dart';
+import 'package:discover/ui/privacy_policy.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -80,6 +82,22 @@ class _PostavkePageState extends State<PostavkePage> {
                     .toList(),
               ),
             ),
+            Spacer(),
+            GestureDetector(child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Read our privacy policy"),
+            ), onTap: () {
+              showAboutDialog(
+                context: context,
+                applicationName: "Konjic Discover",
+                applicationVersion: "1.0.4",
+                applicationIcon: Image.asset("assets/images/ikonica.png", height: 50),
+                children: [
+                  PrivacyPolicy()
+                ],
+              );
+            }
+              )
           ],
         ));
   }
