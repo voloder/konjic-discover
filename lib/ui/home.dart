@@ -17,14 +17,18 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin   {
+  late final naslovImage = const AssetImage("assets/images/konjic.jpg");
+
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    precacheImage(naslovImage, context);
+    super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final backend = Provider.of<Backend>(context);
     late final sekcije = backend.sekcije;
 
@@ -44,8 +48,8 @@ class _HomePageState extends State<HomePage> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    image: const DecorationImage(
-                        image: AssetImage("assets/images/konjic.jpg"),
+                    image:  DecorationImage(
+                        image: naslovImage,
                         fit: BoxFit.cover)),
                 child: const Center(
                   child: Text(
@@ -109,6 +113,8 @@ class _HomePageState extends State<HomePage> {
       ),
     ));
   }
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class SekcijeView extends StatelessWidget {

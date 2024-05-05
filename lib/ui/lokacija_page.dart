@@ -20,16 +20,6 @@ class LokacijaPage extends StatefulWidget {
 
 class _LokacijaPageState extends State<LokacijaPage> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final postavke = Provider.of<Postavke>(context);
     final jezik = postavke.jezik!;
