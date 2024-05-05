@@ -13,8 +13,6 @@ class PostavkePage extends StatefulWidget {
 }
 
 class _PostavkePageState extends State<PostavkePage> {
-
-
   Map<Jezik, String> jezici = {
     Jezik.bosanski: "Bosanski",
     Jezik.engleski: "English",
@@ -26,13 +24,13 @@ class _PostavkePageState extends State<PostavkePage> {
     Jezik jezik = postavke.jezik!;
 
     Map<Tema, String> teme = {
-      Tema.svijetla: "Svijetla",
-      Tema.tamna: "Tamna",
+      Tema.svijetla: jezik == Jezik.bosanski ? "Svijetla" : "Light",
+      Tema.tamna: jezik == Jezik.bosanski ? "Tamna" : "Dark",
       Tema.auto: "Auto",
     };
     return Scaffold(
         appBar: AppBar(
-          title:  Text(jezik == Jezik.bosanski ? "Postavke" : "Settings"),
+          title: Text(jezik == Jezik.bosanski ? "Postavke" : "Settings"),
         ),
         body: Column(
           children: [
@@ -41,10 +39,12 @@ class _PostavkePageState extends State<PostavkePage> {
               padding: const EdgeInsets.all(8.0),
               child: ExpansionTile(
                 collapsedShape: RoundedRectangleBorder(
-                    side:  BorderSide(color: Theme.of(context).colorScheme.onSurface),
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.onSurface),
                     borderRadius: BorderRadius.circular(10)),
                 shape: RoundedRectangleBorder(
-                    side:  BorderSide(color: Theme.of(context).colorScheme.onSurface),
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.onSurface),
                     borderRadius: BorderRadius.circular(10)),
                 title: Text(jezici[postavke.jezik]!),
                 children: jezici.entries
@@ -64,10 +64,12 @@ class _PostavkePageState extends State<PostavkePage> {
               padding: const EdgeInsets.all(8.0),
               child: ExpansionTile(
                 collapsedShape: RoundedRectangleBorder(
-                    side:  BorderSide(color: Theme.of(context).colorScheme.onSurface),
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.onSurface),
                     borderRadius: BorderRadius.circular(10)),
                 shape: RoundedRectangleBorder(
-                    side:  BorderSide(color: Theme.of(context).colorScheme.onSurface),
+                    side: BorderSide(
+                        color: Theme.of(context).colorScheme.onSurface),
                     borderRadius: BorderRadius.circular(10)),
                 title: Text(teme[postavke.tema]!),
                 children: teme.entries
@@ -83,21 +85,21 @@ class _PostavkePageState extends State<PostavkePage> {
               ),
             ),
             Spacer(),
-            GestureDetector(child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text("Read our privacy policy"),
-            ), onTap: () {
-              showAboutDialog(
-                context: context,
-                applicationName: "Konjic Discover",
-                applicationVersion: "1.0.4",
-                applicationIcon: Image.asset("assets/images/ikonica.png", height: 50),
-                children: [
-                  PrivacyPolicy()
-                ],
-              );
-            }
-              )
+            GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Read our privacy policy"),
+                ),
+                onTap: () {
+                  showAboutDialog(
+                    context: context,
+                    applicationName: "Konjic Discover",
+                    applicationVersion: "1.0.4",
+                    applicationIcon:
+                        Image.asset("assets/images/ikonica.png", height: 50),
+                    children: [PrivacyPolicy()],
+                  );
+                })
           ],
         ));
   }

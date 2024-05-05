@@ -14,40 +14,44 @@ class _StartPageState extends State<StartPage> {
   @override
   Widget build(BuildContext context) {
     final postavke = Provider.of<Postavke>(context);
+    final jezik = postavke.jezik!;
+
+    final odaberiJezikString = jezik == Jezik.bosanski ? "ODABERI JEZIK" : "CHOOSE YOUR LANGUAGE";
+    final nastaviString = jezik == Jezik.bosanski ? "NASTAVI" : "CONTINUE";
     return Scaffold(
         body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Spacer(),
+          const Spacer(),
           Image.asset("assets/images/ikonica.png", height: 85),
-          Spacer(),
+          const Spacer(),
           Text(
-            "CHOOSE YOUR LANGUAGE",
-            style: TextStyle(
+            odaberiJezikString,
+            style: const TextStyle(
               fontFamily: "Montserrat-Light",
               fontSize: 22,
             ),
             textAlign: TextAlign.center,
           ),
-          Spacer(),
+          const Spacer(),
           DropdownMenu(
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               color: Colors.blue,
               fontSize: 15,
             ),
-            initialSelection: Jezik.engleski,
+            initialSelection: jezik,
 
             inputDecorationTheme: InputDecorationTheme(
               contentPadding: const EdgeInsets.symmetric(horizontal:30, vertical: 10),
-              labelStyle: TextStyle(color: Colors.lightBlue),
+              labelStyle: const TextStyle(color: Colors.lightBlue),
               enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.blue, width: 2),
+                borderSide: const BorderSide(color: Colors.blue, width: 2),
                 borderRadius: BorderRadius.circular(6),
               ),
 
             ),
-            dropdownMenuEntries: <DropdownMenuEntry>[
+            dropdownMenuEntries: const <DropdownMenuEntry>[
               DropdownMenuEntry(
                 label: "Bosanski",
                 value: Jezik.bosanski,
@@ -61,7 +65,7 @@ class _StartPageState extends State<StartPage> {
               postavke.postaviJezik(value);
             },
           ),
-          Spacer(),
+          const Spacer(),
           TextButton(
             style: TextButton.styleFrom(
               backgroundColor: Colors.blue,
@@ -74,13 +78,13 @@ class _StartPageState extends State<StartPage> {
               );
               postavke.postaviPrviPut(false);
             },
-            child: const Text(
-              "CONTINUE",
-              style: TextStyle(color: Colors.white, fontSize: 20),
+            child:  Text(
+              nastaviString,
+              style: const TextStyle(color: Colors.white, fontSize: 20),
             ),
           ),
-          Spacer(),
-          Text("Konjic Discover", style: TextStyle(fontFamily: "Montserrat-Light")),
+          const Spacer(),
+          const Text("Konjic Discover", style: TextStyle(fontFamily: "Montserrat-Light")),
         ],
       ),
     ));
