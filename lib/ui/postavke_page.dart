@@ -94,7 +94,7 @@ class _PostavkePageState extends State<PostavkePage> {
                   showAboutDialog(
                     context: context,
                     applicationName: "Konjic Discover",
-                    applicationVersion: "1.0.4",
+                    applicationVersion: "1.0.6",
                     applicationIcon:
                         Image.asset("assets/images/ikonica.png", height: 50),
                     children: [PrivacyPolicy()],

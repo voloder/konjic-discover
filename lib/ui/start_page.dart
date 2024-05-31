@@ -1,5 +1,6 @@
 import 'package:discover/postavke.dart';
 import 'package:discover/ui/home.dart';
+import 'package:discover/ui/privacy_policy.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -84,7 +85,21 @@ class _StartPageState extends State<StartPage> {
             ),
           ),
           const Spacer(),
-          const Text("Konjic Discover", style: TextStyle(fontFamily: "Montserrat-Light")),
+          GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text("Read our privacy policy"),
+              ),
+              onTap: () {
+                showAboutDialog(
+                  context: context,
+                  applicationName: "Konjic Discover",
+                  applicationVersion: "1.0.7",
+                  applicationIcon:
+                  Image.asset("assets/images/ikonica.png", height: 50),
+                  children: [PrivacyPolicy()],
+                );
+              })
         ],
       ),
     ));
