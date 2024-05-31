@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin   {
+  late final localizations = AppLocalizations.of(context)!;
   late final naslovImage = const AssetImage("assets/images/konjic.jpg");
 
   @override
@@ -30,88 +32,52 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
   Widget build(BuildContext context) {
     super.build(context);
     final backend = Provider.of<Backend>(context);
+
     late final sekcije = backend.sekcije;
 
-    final postavke = Provider.of<Postavke>(context);
-    Jezik jezik = postavke.jezik!;
 
     return Scaffold(
-        body: SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Container(
-                height: 180,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image:  DecorationImage(
-                        image: naslovImage,
-                        fit: BoxFit.cover)),
-                child: const Center(
-                  child: Text(
-                    "KONJIC",
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+        body: SingleChildScrollView(
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    height: 180,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image:  DecorationImage(
+                            image: naslovImage,
+                            fit: BoxFit.cover)),
+                    child: const Center(
+                      child: Text(
+                        "KONJIC",
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                  child: Image.asset(
-                Theme.of(context).brightness == Brightness.light
-                    ? "assets/images/discover.png"
-                    : "assets/images/discover_dark.png",
-                width: 300,
-              )),
-            ),
-            SekcijeView(sekcije: sekcije),
-            Padding(
-              padding: EdgeInsets.only(left: 30, top: 10, bottom: 3),
-              child: Text(jezik == Jezik.bosanski ? "Postavke" : "Settings",
-                  style: TextStyle(fontSize: 14)),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => PostavkePage(),
-                ));
-              },
-              child: Container(
-                  width: 125,
-                  height: 150,
-                  margin: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.asset(
-                          height: 150,
-                          width: 125,
-                          "assets/images/settings.png",
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Center(
-                          child: Text(
-                        jezik == Jezik.bosanski ? "POSTAVKE" : "SETTINGS",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.white),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Center(
+                      child: Image.asset(
+                        Theme.of(context).brightness == Brightness.light
+                            ? "assets/images/discover.png"
+                            : "assets/images/discover_dark.png",
+                        width: 300,
                       )),
-                    ],
-                  )),
+                ),
+                SekcijeView(sekcije: sekcije),
+              ],
             ),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
   @override
   bool get wantKeepAlive => true;
@@ -169,9 +135,9 @@ class SekcijeView extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 child: CachedNetworkImage(
                                   fadeInDuration:
-                                      const Duration(milliseconds: 300),
+                                  const Duration(milliseconds: 300),
                                   fadeOutDuration:
-                                      const Duration(milliseconds: 300),
+                                  const Duration(milliseconds: 300),
                                   color: Colors.black.withOpacity(0.25),
                                   colorBlendMode: BlendMode.darken,
                                   width: 125,
@@ -180,28 +146,28 @@ class SekcijeView extends StatelessWidget {
                                   imageUrl: kategorija.slika!,
                                   placeholder: (context, ulr) =>
                                       Shimmer.fromColors(
-                                    period: const Duration(milliseconds: 800),
-                                    baseColor: Colors.grey.shade400,
-                                    highlightColor: Colors.grey.shade300,
-                                    child: Container(
-                                      width: 120,
-                                      height: 170,
-                                      color: Colors.grey.shade400,
-                                    ),
-                                  ),
+                                        period: const Duration(milliseconds: 800),
+                                        baseColor: Colors.grey.shade400,
+                                        highlightColor: Colors.grey.shade300,
+                                        child: Container(
+                                          width: 120,
+                                          height: 170,
+                                          color: Colors.grey.shade400,
+                                        ),
+                                      ),
                                 ),
                               ),
                               Center(
                                   child: AutoSizeText(
                                     minFontSize: 10,
                                     softWrap: true,
-                                wrapWords: false,
-                                jezik == Jezik.bosanski
-                                    ? kategorija.naziv.toUpperCase()
-                                    : kategorija.naziv_en.toUpperCase(),
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(color: Colors.white),
-                              )),
+                                    wrapWords: false,
+                                    jezik == Jezik.bosanski
+                                        ? kategorija.naziv.toUpperCase()
+                                        : kategorija.naziv_en.toUpperCase(),
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(color: Colors.white),
+                                  )),
                             ],
                           )),
                     );

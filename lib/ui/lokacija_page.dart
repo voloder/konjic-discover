@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:latlong2/latlong.dart';
 import '../entities/lokacija.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LokacijaPage extends StatefulWidget {
   final Lokacija lokacija;
@@ -19,13 +20,12 @@ class LokacijaPage extends StatefulWidget {
 }
 
 class _LokacijaPageState extends State<LokacijaPage> {
+  late final localizations = AppLocalizations.of(context)!;
+
   @override
   Widget build(BuildContext context) {
     final postavke = Provider.of<Postavke>(context);
     final jezik = postavke.jezik!;
-    String prikaziNaMapi = jezik == Jezik.engleski
-        ? "Open in Google Maps"
-        : "Otvori u Google Maps";
     final opis = Jezik.bosanski == jezik
         ? widget.lokacija.opis
         : widget.lokacija.opisEn;
@@ -54,34 +54,34 @@ class _LokacijaPageState extends State<LokacijaPage> {
                   ),
                   items: widget.lokacija.slike
                       .map((e) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Hero(
-                                tag: e,
-                                child: CachedNetworkImage(
-                                  height: 200,
-                                  width: double.infinity,
-                                  fit: BoxFit.cover,
-                                  imageUrl: e,
-                                  fadeInDuration: Duration(milliseconds: 300),
-                                  fadeOutDuration: Duration(milliseconds: 300),
-                                ),
-                              ),
-                            ),
-                          ))
+                    padding: const EdgeInsets.all(8.0),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Hero(
+                        tag: e,
+                        child: CachedNetworkImage(
+                          height: 200,
+                          width: double.infinity,
+                          fit: BoxFit.cover,
+                          imageUrl: e,
+                          fadeInDuration: Duration(milliseconds: 300),
+                          fadeOutDuration: Duration(milliseconds: 300),
+                        ),
+                      ),
+                    ),
+                  ))
                       .toList(),
                 ),
               if (opis.isNotEmpty)
                 ListTile(
-                  title: Text(jezik == Jezik.bosanski ? "Opis" : "Description"),
+                  title: Text(localizations.description,),
                   subtitle: Text(opis,
                       textAlign: TextAlign.justify),
                 ),
               ...widget.lokacija.detalji.entries.map((e) => ListTile(
-                    title: Text(e.key.toString()),
-                    subtitle: Text(e.value.toString()),
-                  )),
+                title: Text(e.key.toString()),
+                subtitle: Text(e.value.toString()),
+              )),
               if (widget.lokacija.lat != null && widget.lokacija.long != null)
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -92,7 +92,7 @@ class _LokacijaPageState extends State<LokacijaPage> {
                     onPressed: () {
                       openMap(widget.lokacija.lat!, widget.lokacija.long!);
                     },
-                    child: Text(prikaziNaMapi),
+                    child: Text(localizations.openInMaps),
                   ),
                 ),
               if (widget.lokacija.lat != null && widget.lokacija.long != null)
@@ -106,16 +106,16 @@ class _LokacijaPageState extends State<LokacijaPage> {
                           initialCameraFit: CameraFit.insideBounds(
                             maxZoom: 17,
                             minZoom: 8,
-                        bounds: LatLngBounds.fromPoints([
-                          LatLng( 43.6544405 + (43.6544405 - widget.lokacija.lat!) , 17.9606621 + (17.9606621 - widget.lokacija.long!)),
-                          LatLng(widget.lokacija.lat! - (43.6544405 - widget.lokacija.lat!) * 2,
-                              widget.lokacija.long! - (17.9606621 - widget.lokacija.long!) * 2)
-                        ]),
-                      )),
+                            bounds: LatLngBounds.fromPoints([
+                              LatLng( 43.6544405 + (43.6544405 - widget.lokacija.lat!) , 17.9606621 + (17.9606621 - widget.lokacija.long!)),
+                              LatLng(widget.lokacija.lat! - (43.6544405 - widget.lokacija.lat!) * 2,
+                                  widget.lokacija.long! - (17.9606621 - widget.lokacija.long!) * 2)
+                            ]),
+                          )),
                       children: [
                         TileLayer(
                           urlTemplate:
-                              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                         ),
                         MarkerLayer(markers: [
                           Marker(

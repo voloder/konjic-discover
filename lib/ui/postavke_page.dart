@@ -4,6 +4,7 @@ import 'package:discover/ui/privacy_policy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PostavkePage extends StatefulWidget {
   const PostavkePage({super.key});
@@ -13,6 +14,8 @@ class PostavkePage extends StatefulWidget {
 }
 
 class _PostavkePageState extends State<PostavkePage> {
+
+
   Map<Jezik, String> jezici = {
     Jezik.bosanski: "Bosanski",
     Jezik.engleski: "English",
@@ -21,20 +24,21 @@ class _PostavkePageState extends State<PostavkePage> {
   @override
   Widget build(BuildContext context) {
     final postavke = Provider.of<Postavke>(context);
-    Jezik jezik = postavke.jezik!;
-
+    final localizations = AppLocalizations.of(context)!;
+    
     Map<Tema, String> teme = {
-      Tema.svijetla: jezik == Jezik.bosanski ? "Svijetla" : "Light",
-      Tema.tamna: jezik == Jezik.bosanski ? "Tamna" : "Dark",
-      Tema.auto: "Auto",
+      Tema.svijetla: localizations.light,
+      Tema.tamna: localizations.dark,
+      Tema.auto: localizations.auto
     };
+
     return Scaffold(
         appBar: AppBar(
-          title: Text(jezik == Jezik.bosanski ? "Postavke" : "Settings"),
+          title: Text(localizations.settings),
         ),
         body: Column(
           children: [
-            Text(jezik == Jezik.bosanski ? "Jezik" : "Language"),
+            Text(localizations.language),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ExpansionTile(
@@ -49,17 +53,17 @@ class _PostavkePageState extends State<PostavkePage> {
                 title: Text(jezici[postavke.jezik]!),
                 children: jezici.entries
                     .map((e) => ListTile(
-                          title: Text(e.value),
-                          onTap: () {
-                            setState(() {
-                              postavke.postaviJezik(e.key);
-                            });
-                          },
-                        ))
+                  title: Text(e.value),
+                  onTap: () {
+                    setState(() {
+                      postavke.postaviJezik(e.key);
+                    });
+                  },
+                ))
                     .toList(),
               ),
             ),
-            Text(jezik == Jezik.bosanski ? "Tema" : "Theme"),
+            Text(localizations.theme),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ExpansionTile(
@@ -74,13 +78,13 @@ class _PostavkePageState extends State<PostavkePage> {
                 title: Text(teme[postavke.tema]!),
                 children: teme.entries
                     .map((e) => ListTile(
-                          title: Text(e.value),
-                          onTap: () {
-                            setState(() {
-                              postavke.postaviTemu(e.key);
-                            });
-                          },
-                        ))
+                  title: Text(e.value),
+                  onTap: () {
+                    setState(() {
+                      postavke.postaviTemu(e.key);
+                    });
+                  },
+                ))
                     .toList(),
               ),
             ),
@@ -88,15 +92,15 @@ class _PostavkePageState extends State<PostavkePage> {
             GestureDetector(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("Read our privacy policy"),
+                  child: Text(localizations.privacy),
                 ),
                 onTap: () {
                   showAboutDialog(
                     context: context,
                     applicationName: "Konjic Discover",
-                    applicationVersion: "1.0.6",
+                    applicationVersion: "Made with ❤️ by students of Srednja škola Konjic",
                     applicationIcon:
-                        Image.asset("assets/images/ikonica.png", height: 50),
+                    Center(child: Image.asset("assets/images/ikonica.png", height: 60)),
                     children: [PrivacyPolicy()],
                   );
                 })
