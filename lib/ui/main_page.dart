@@ -1,5 +1,6 @@
 import 'package:discover/ui/events_page.dart';
 import 'package:discover/ui/home.dart';
+import 'package:discover/ui/map_page.dart';
 import 'package:discover/ui/postavke_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

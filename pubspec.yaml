@@ -1,7 +1,7 @@
 name: discover
 description: "Konjic Discover"
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.7+7
+version: 1.0.8+8
 
 environment:
   sdk: '>=3.3.1 <4.0.0'
@@ -23,6 +23,7 @@ dependencies:
   intl: any
   flutter_localizations:
     sdk: flutter
+  flutter_markdown: ^0.7.1
 
 dev_dependencies:
   flutter_test:

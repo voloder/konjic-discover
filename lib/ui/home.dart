@@ -1,9 +1,12 @@
+import 'dart:ui';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:discover/backend.dart';
 import 'package:discover/entities/sekcija.dart';
 import 'package:discover/ui/lokacije.dart';
 import 'package:discover/postavke.dart';
+import 'package:discover/ui/map_page.dart';
 import 'package:discover/ui/postavke_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +21,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin   {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   late final localizations = AppLocalizations.of(context)!;
   late final naslovImage = const AssetImage("assets/images/konjic.jpg");
 
@@ -35,8 +39,37 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
     late final sekcije = backend.sekcije;
 
-
     return Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: AppBar(
+          elevation: 0,
+          flexibleSpace: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
+              child: Container(
+                color: Theme.of(context).colorScheme.background.withOpacity(0.8),
+              ),
+            ),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.background.withOpacity(0),
+          title: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.asset(
+                          Theme.of(context).brightness == Brightness.light
+              ? "assets/images/discover.png"
+              : "assets/images/discover_dark.png",
+                        ),
+          ),
+          actions: [
+            IconButton(
+                icon: const Icon(Icons.map),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const MapPage(),
+                  ));
+                })
+          ],
+        ),
         body: SingleChildScrollView(
           child: SafeArea(
             child: Column(
@@ -49,9 +82,8 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                     width: double.infinity,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        image:  DecorationImage(
-                            image: naslovImage,
-                            fit: BoxFit.cover)),
+                        image: DecorationImage(
+                            image: naslovImage, fit: BoxFit.cover)),
                     child: const Center(
                       child: Text(
                         "KONJIC",
@@ -63,22 +95,13 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                      child: Image.asset(
-                        Theme.of(context).brightness == Brightness.light
-                            ? "assets/images/discover.png"
-                            : "assets/images/discover_dark.png",
-                        width: 300,
-                      )),
-                ),
                 SekcijeView(sekcije: sekcije),
               ],
             ),
           ),
         ));
   }
+
   @override
   bool get wantKeepAlive => true;
 }
@@ -135,9 +158,9 @@ class SekcijeView extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 child: CachedNetworkImage(
                                   fadeInDuration:
-                                  const Duration(milliseconds: 300),
+                                      const Duration(milliseconds: 300),
                                   fadeOutDuration:
-                                  const Duration(milliseconds: 300),
+                                      const Duration(milliseconds: 300),
                                   color: Colors.black.withOpacity(0.25),
                                   colorBlendMode: BlendMode.darken,
                                   width: 125,
@@ -146,28 +169,28 @@ class SekcijeView extends StatelessWidget {
                                   imageUrl: kategorija.slika!,
                                   placeholder: (context, ulr) =>
                                       Shimmer.fromColors(
-                                        period: const Duration(milliseconds: 800),
-                                        baseColor: Colors.grey.shade400,
-                                        highlightColor: Colors.grey.shade300,
-                                        child: Container(
-                                          width: 120,
-                                          height: 170,
-                                          color: Colors.grey.shade400,
-                                        ),
-                                      ),
+                                    period: const Duration(milliseconds: 800),
+                                    baseColor: Colors.grey.shade400,
+                                    highlightColor: Colors.grey.shade300,
+                                    child: Container(
+                                      width: 120,
+                                      height: 170,
+                                      color: Colors.grey.shade400,
+                                    ),
+                                  ),
                                 ),
                               ),
                               Center(
                                   child: AutoSizeText(
-                                    minFontSize: 10,
-                                    softWrap: true,
-                                    wrapWords: false,
-                                    jezik == Jezik.bosanski
-                                        ? kategorija.naziv.toUpperCase()
-                                        : kategorija.naziv_en.toUpperCase(),
-                                    textAlign: TextAlign.center,
-                                    style: const TextStyle(color: Colors.white),
-                                  )),
+                                minFontSize: 10,
+                                softWrap: true,
+                                wrapWords: false,
+                                jezik == Jezik.bosanski
+                                    ? kategorija.naziv.toUpperCase()
+                                    : kategorija.naziv_en.toUpperCase(),
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(color: Colors.white),
+                              )),
                             ],
                           )),
                     );

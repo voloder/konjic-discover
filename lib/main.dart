@@ -70,7 +70,8 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.blue,
               brightness: Brightness.dark,
-              surface: const Color(0xff1d282c)),
+              surfaceTint: Colors.transparent
+  ),
           useMaterial3: true,
           brightness: Brightness.dark,
         ),

@@ -2,11 +2,14 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:discover/entities/dogadjaj.dart';
+import 'package:discover/postavke.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class EventPage extends StatefulWidget {
   final Dogadjaj event;
@@ -36,6 +39,8 @@ class _EventPageState extends State<EventPage> {
 
   @override
   Widget build(BuildContext context) {
+    final postavke = Provider.of<Postavke>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         controller: scrollController,
@@ -46,9 +51,11 @@ class _EventPageState extends State<EventPage> {
                   offset: Offset(0, offset),
                   child: Container(
                     foregroundDecoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface.withOpacity(
-                          min(offset / _imageHeight * 1.2, 1.0))
-                    ),
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surface
+                            .withOpacity(
+                                min(offset / _imageHeight * 1.2, 1.0))),
                     child: Stack(
                       children: [
                         Container(
@@ -70,6 +77,32 @@ class _EventPageState extends State<EventPage> {
                             width: MediaQuery.of(context).size.width,
                           ),
                         ),
+                        Positioned(
+                          bottom: 10,
+                          left: 10,
+                          right: 10,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(postavke.jezik == Jezik.bosanski ? event.naziv : event.naziv_en,
+                                  style: const TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold)),
+                              if (event.vrijeme != null)
+                                Text(
+                                    DateFormat("EEEE, d.M.y", localizations.localeName)
+                                        .format(event.vrijeme!).replaceFirstMapped(
+                                            RegExp(r"(\w+)"),
+                                            (match) => match.group(0)!.substring(0, 1).toUpperCase() + match.group(0)!.substring(1)),
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        fontFamily: "Montserrat-Light",
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white))
+                            ],
+                          ),
+                        ),
                         SafeArea(
                           child: GestureDetector(
                             child: Padding(
@@ -88,47 +121,35 @@ class _EventPageState extends State<EventPage> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          bottom: 10,
-                          left: 10,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(event.naziv,
-                                  style: const TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold)),
-                              Text(
-                                  DateFormat("EEEE, d.M.y").format(event.vrijeme) ,
-
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: "Montserrat-Light",
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white))
-                            ],
-                          ),
-                        ),
-
                       ],
                     ),
                   )),
+
             Container(
               margin: const EdgeInsets.only(top: 300),
-              color: Theme.of(context).colorScheme.surface,
-              padding: const EdgeInsets.all(8),
+              color: Theme.of(context).colorScheme.background,
+              padding: const EdgeInsets.all(12),
               child: Column(
-                children: [Center(child: Text(event.opis))],
+                children: [
+                  Center(
+                      child: MarkdownBody(
+                          styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+                            blockquoteDecoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.secondaryContainer,
+                              borderRadius: BorderRadius.circular(2.0),
+                            ),
+                          ),
+                          data: postavke.jezik == Jezik.bosanski ? event.opis : event.opis_en))
+                ],
               ),
             ),
             Transform.translate(
               offset: Offset(0, offset),
               child: AnimatedOpacity(
                 duration: const Duration(milliseconds: 100),
-                opacity: offset > (_imageHeight / 1.2) ? 1.0 : 0.0,
+                opacity: offset > (_imageHeight / 1.3) ? 1.0 : 0.0,
                 child: AppBar(
-                  title: Text(event.naziv),
+                  title: Text(postavke.jezik == Jezik.bosanski ? event.naziv : event.naziv_en),
                 ),
               ),
             ),

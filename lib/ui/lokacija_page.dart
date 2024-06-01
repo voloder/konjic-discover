@@ -143,7 +143,7 @@ class _LokacijaPageState extends State<LokacijaPage> {
 
   Future<void> openMap(double latitude, double longitude) async {
     Uri googleUrl = Uri.parse(
-        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude');
+        'https://www.google.com/maps/dir/?api=1&destination=$latitude,$longitude');
     await launchUrl(googleUrl);
   }
 }
