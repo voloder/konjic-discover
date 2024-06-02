@@ -47,27 +47,37 @@ class _HomePageState extends State<HomePage>
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
               child: Container(
-                color: Theme.of(context).colorScheme.background.withOpacity(0.8),
+                color:
+                    Theme.of(context).colorScheme.background.withOpacity(0.8),
               ),
             ),
           ),
-          backgroundColor: Theme.of(context).colorScheme.background.withOpacity(0),
+          backgroundColor:
+              Theme.of(context).colorScheme.background.withOpacity(0),
           title: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Image.asset(
-                          Theme.of(context).brightness == Brightness.light
-              ? "assets/images/discover.png"
-              : "assets/images/discover_dark.png",
-                        ),
+              Theme.of(context).brightness == Brightness.light
+                  ? "assets/images/discover.png"
+                  : "assets/images/discover_dark.png",
+            ),
           ),
           actions: [
-            IconButton(
-                icon: const Icon(Icons.map),
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const MapPage(),
-                  ));
-                })
+            Shimmer.fromColors(
+              period: const Duration(milliseconds: 5000),
+              baseColor:
+                  Theme.of(context).colorScheme.onBackground.withOpacity(0.8),
+              highlightColor: Theme.of(context).brightness == Brightness.light
+                  ? Colors.grey
+                  : Colors.white,
+              child: IconButton(
+                  icon: const Icon(Icons.map),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const MapPage(),
+                    ));
+                  }),
+            )
           ],
         ),
         body: SingleChildScrollView(
