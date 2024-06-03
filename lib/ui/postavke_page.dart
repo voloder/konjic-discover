@@ -3,8 +3,10 @@ import 'package:discover/postavke.dart';
 import 'package:discover/ui/privacy_policy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PostavkePage extends StatefulWidget {
   const PostavkePage({super.key});
@@ -88,6 +90,19 @@ class _PostavkePageState extends State<PostavkePage> {
                     .toList(),
               ),
             ),
+            Spacer(),
+            GestureDetector(
+              onTap: () {
+                launchUrl(Uri.parse("https://welcometokonjic.ba/"));
+              },
+              child: Expanded(flex: 5,
+                  child: Image.asset("assets/images/welcome.png")),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(localizations.welcomeToKonjic, textAlign: TextAlign.center,),
+            ),
+
             Spacer(),
             GestureDetector(
                 child: Padding(

@@ -1,6 +1,7 @@
 import 'package:discover/postavke.dart';
 import 'package:discover/ui/home.dart';
 import 'package:discover/ui/main_page.dart';
+import 'package:discover/ui/privacy_policy.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -87,7 +88,21 @@ class _StartPageState extends State<StartPage> {
                 ),
               ),
               const Spacer(),
-              const Text("Konjic Discover", style: TextStyle(fontFamily: "Montserrat-Light")),
+              GestureDetector(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(localizations.privacy),
+                  ),
+                  onTap: () {
+                    showAboutDialog(
+                      context: context,
+                      applicationName: "Konjic Discover",
+                      applicationVersion: "Made with ❤️ by students of Srednja škola Konjic",
+                      applicationIcon:
+                      Center(child: Image.asset("assets/images/ikonica.png", height: 60)),
+                      children: [PrivacyPolicy()],
+                    );
+                  })
             ],
           ),
         ));
