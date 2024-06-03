@@ -88,7 +88,7 @@ class _PostavkePageState extends State<PostavkePage> {
                     .toList(),
               ),
             ),
-            Spacer(flex: 4),
+            Spacer(flex: 3),
             GestureDetector(
               onTap: () {
                 launchUrl(Uri.parse("https://welcometokonjic.ba/"));
