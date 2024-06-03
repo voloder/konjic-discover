@@ -16,8 +16,6 @@ class PostavkePage extends StatefulWidget {
 }
 
 class _PostavkePageState extends State<PostavkePage> {
-
-
   Map<Jezik, String> jezici = {
     Jezik.bosanski: "Bosanski",
     Jezik.engleski: "English",
@@ -27,7 +25,7 @@ class _PostavkePageState extends State<PostavkePage> {
   Widget build(BuildContext context) {
     final postavke = Provider.of<Postavke>(context);
     final localizations = AppLocalizations.of(context)!;
-    
+
     Map<Tema, String> teme = {
       Tema.svijetla: localizations.light,
       Tema.tamna: localizations.dark,
@@ -55,13 +53,13 @@ class _PostavkePageState extends State<PostavkePage> {
                 title: Text(jezici[postavke.jezik]!),
                 children: jezici.entries
                     .map((e) => ListTile(
-                  title: Text(e.value),
-                  onTap: () {
-                    setState(() {
-                      postavke.postaviJezik(e.key);
-                    });
-                  },
-                ))
+                          title: Text(e.value),
+                          onTap: () {
+                            setState(() {
+                              postavke.postaviJezik(e.key);
+                            });
+                          },
+                        ))
                     .toList(),
               ),
             ),
@@ -80,29 +78,46 @@ class _PostavkePageState extends State<PostavkePage> {
                 title: Text(teme[postavke.tema]!),
                 children: teme.entries
                     .map((e) => ListTile(
-                  title: Text(e.value),
-                  onTap: () {
-                    setState(() {
-                      postavke.postaviTemu(e.key);
-                    });
-                  },
-                ))
+                          title: Text(e.value),
+                          onTap: () {
+                            setState(() {
+                              postavke.postaviTemu(e.key);
+                            });
+                          },
+                        ))
                     .toList(),
               ),
             ),
-            Spacer(),
+            Spacer(flex: 4),
             GestureDetector(
               onTap: () {
                 launchUrl(Uri.parse("https://welcometokonjic.ba/"));
               },
-              child: Expanded(flex: 5,
-                  child: Image.asset("assets/images/welcome.png")),
+              child: Container(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                height: 150,
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Image.asset("assets/images/welcome.png"),
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(localizations.welcomeToKonjic,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: "Montserrat-Light",
+                                fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(localizations.welcomeToKonjic, textAlign: TextAlign.center,),
-            ),
-
             Spacer(),
             GestureDetector(
                 child: Padding(
@@ -113,9 +128,11 @@ class _PostavkePageState extends State<PostavkePage> {
                   showAboutDialog(
                     context: context,
                     applicationName: "Konjic Discover",
-                    applicationVersion: "Made with ❤️ by students of Srednja škola Konjic",
-                    applicationIcon:
-                    Center(child: Image.asset("assets/images/ikonica.png", height: 60)),
+                    applicationVersion:
+                        "Made with ❤️ by students of Srednja škola Konjic",
+                    applicationIcon: Center(
+                        child: Image.asset("assets/images/ikonica.png",
+                            height: 60)),
                     children: [PrivacyPolicy()],
                   );
                 })
