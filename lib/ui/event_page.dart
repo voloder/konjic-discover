@@ -133,7 +133,9 @@ class _EventPageState extends State<EventPage> {
                 children: [
                   Center(
                       child: MarkdownBody(
+
                           styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+                            textAlign: WrapAlignment.spaceEvenly,
                             blockquoteDecoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.secondaryContainer,
                               borderRadius: BorderRadius.circular(2.0),
