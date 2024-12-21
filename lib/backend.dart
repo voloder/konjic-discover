@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:discover/entities/dogadjaj.dart';
 import 'package:discover/entities/kategorija.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'entities/lokacija.dart';
 import 'entities/sekcija.dart';
 import 'firebase_options.dart';
@@ -33,41 +35,41 @@ class Backend {
     final dogadjajiSnapshot =
         await FirebaseFirestore.instance.collection("dogadjaji").get();
 
-    kategorijeSnapshot.docs.forEach((element) {
+    for (var element in kategorijeSnapshot.docs) {
       try {
         kategorije.add(Kategorija.fromMap(element.data())..id = element.id);
       } catch (e) {
-        print("Greska: " + element.data().toString());
+        print("Greska: ${element.data()}");
         print(e);
       }
-    });
+    }
 
-    lokacijeSnapshot.docs.forEach((element) {
+    for (var element in lokacijeSnapshot.docs) {
       try {
         lokacije.add(Lokacija.fromMap(element.data()));
       } catch (e) {
-        print("Greska: " + element.data().toString());
+        print("Greska: ${element.data()}");
         print(e);
       }
-    });
+    }
 
-    sekcijeSnapshot.docs.forEach((element) {
+    for (var element in sekcijeSnapshot.docs) {
       try {
         sekcije.add(Sekcija.fromMap(element.data())..id = element.id);
       } catch (e) {
-        print("Greska: " + element.data().toString());
+        print("Greska: ${element.data()}");
         print(e);
       }
-    });
+    }
 
-    dogadjajiSnapshot.docs.forEach((element) {
+    for (var element in dogadjajiSnapshot.docs) {
       try {
         dogadjaji.add(Dogadjaj.fromMap(element.data()));
       } catch (e) {
-        print("Greska: " + element.data().toString());
+        print("Greska: ${element.data()}");
         print(e);
       }
-    });
+    }
 
     kategorije.sort((a, b) => (b.priority ?? 0).compareTo(a.priority ?? 0));
 
@@ -79,6 +81,35 @@ class Backend {
       kategorija.lokacije = lokacije
           .where((element) => element.kategorija == kategorija.id)
           .toList();
+    }
+  }
+
+  // void test() {
+  //   for (Kategorija kategorija in kategorije) {
+  //     print(kategorija.slika);
+  //   }
+  // }
+
+  Future<void> precacheImagesForKategorija(context) async {
+    for (Kategorija kategorija in kategorije) {
+      print("precached kategorijas' images");
+
+      precacheImage(CachedNetworkImageProvider(kategorija.slika!), context);
+      print(kategorija.slika);
+    }
+  }
+
+  Future<void> precacheImagesForLokacija(context) async {
+    for (Lokacija lokacija in lokacije) {
+      precacheImage(CachedNetworkImageProvider(lokacija.slike.first), context);
+      print(lokacija.slike.first);
+    }
+  }
+
+  Future<void> precacheImagesForDogadjaj(context) async {
+    for (Dogadjaj dogadjaj in dogadjaji) {
+      precacheImage(CachedNetworkImageProvider(dogadjaj.slike.first), context);
+      print(dogadjaj.slike.first);
     }
   }
 }

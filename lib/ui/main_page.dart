@@ -1,6 +1,5 @@
 import 'package:discover/ui/events_page.dart';
 import 'package:discover/ui/home.dart';
-import 'package:discover/ui/map_page.dart';
 import 'package:discover/ui/postavke_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -12,52 +11,82 @@ class MainPage extends StatefulWidget {
   State<MainPage> createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage>
-    with SingleTickerProviderStateMixin {
-  int _selectedIndex = 1;
-  late final _tabController = TabController(length: 3, vsync: this, initialIndex: 1);
+class _MainPageState extends State<MainPage> {
+  int currentIndex = 1;
+  late PageController _pageController;
 
   @override
   void initState() {
     super.initState();
-    _tabController.animation?.addListener(() {
-      setState(() {
-        _selectedIndex = _tabController.animation!.value.round();
-      });
-    });
+    _pageController = PageController(initialPage: 1);
   }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  final List list = const [
+    // Scaffold(backgroundColor: Colors.yellow)
+    // Scaffold(backgroundColor: Colors.black),
+    // Scaffold(backgroundColor: Colors.red),
+    EventsPage(),
+    HomePage(),
+    PostavkePage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
     return Scaffold(
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            const EventsPage(),
-            const HomePage(),
-            const PostavkePage(),
-          ],
+        body: PageView.builder(
+          itemCount: list.length,
+          controller: _pageController,
+          // pageSnapping: true,
+          physics: const ClampingScrollPhysics(),
+          itemBuilder: (context, index) {
+            return list[index];
+          },
+          onPageChanged: (value) {
+            setState(() {
+              currentIndex = value;
+            });
+          },
         ),
         bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
+          showUnselectedLabels: false,
+          elevation: 0,
+          enableFeedback: false,
+          selectedIconTheme: const IconThemeData(size: 29),
+          fixedColor: Theme.of(context).colorScheme.inverseSurface,
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          currentIndex: currentIndex,
+          unselectedItemColor:
+              Theme.of(context).colorScheme.inverseSurface.withOpacity(0.4),
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.event),
+              icon: const Icon(
+                Icons.event,
+              ),
               label: localizations.events,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
+              icon: const Icon(Icons.home),
               label: localizations.discover,
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: localizations.settings),
+              icon: const Icon(Icons.settings),
+              label: localizations.settings,
+            ),
           ],
           onTap: (index) {
             setState(() {
-              _selectedIndex = index;
-              _tabController.animateTo(index);
+              currentIndex = index;
+              _pageController.animateToPage(currentIndex,
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.ease);
             });
           },
         ));
