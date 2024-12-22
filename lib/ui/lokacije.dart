@@ -69,6 +69,8 @@ class _LokacijePageState extends State<LokacijePage> {
             ),
           ),
         ),
+
+
         SliverToBoxAdapter(
           child: Column(
             children: [
@@ -115,9 +117,7 @@ class _LokacijePageState extends State<LokacijePage> {
               //   ],
               // ),
               ...lokacije.map((e) {
-                setState(() {
-                  i += 1;
-                });
+                i++;
                 final opis = jezik == Jezik.bosanski ? e.opis : e.opisEn;
                 final naslov = jezik == Jezik.bosanski ? e.naziv : e.nazivEn;
                 return Padding(
@@ -130,7 +130,7 @@ class _LokacijePageState extends State<LokacijePage> {
                     child: FadeIn(
                       duration: Duration(milliseconds: 250 + (i * 300)),
                       child: Container(
-                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        clipBehavior: Clip.antiAlias,
                         height: 100,
                         decoration: BoxDecoration(
                             color: Theme.of(context)

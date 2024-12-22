@@ -30,6 +30,9 @@ void main() async {
   final postavke = Postavke();
 
   await postavke.ucitaj();
+
+
+
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider.value(value: postavke),
@@ -39,16 +42,28 @@ void main() async {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+
   const MyApp({super.key});
+
   @override
-  Widget build(BuildContext context) {
-    //UCITAJ SVE SLIKE
-    final backend = Provider.of<Backend>(context);
-    final postavke = Provider.of<Postavke>(context);
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    final backend = Provider.of<Backend>(context, listen: false);
     backend.precacheImagesForDogadjaj(context);
     backend.precacheImagesForKategorija(context);
     backend.precacheImagesForLokacija(context);
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final postavke = Provider.of<Postavke>(context);
+
     return MaterialApp(
         // showPerformanceOverlay: true,
         debugShowCheckedModeBanner: false,
@@ -82,7 +97,7 @@ class MyApp extends StatelessWidget {
               seedColor: Colors.blue,
               brightness: Brightness.dark,
               surfaceTint: Colors.transparent),
-          useMaterial3: false,
+          useMaterial3: true,
           brightness: Brightness.dark,
         ),
         home: postavke.prviPut! ? const StartPage() : const MainPage()

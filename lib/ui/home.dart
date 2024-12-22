@@ -228,7 +228,6 @@ class _SekcijeViewState extends State<SekcijeView> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 5),
                   child: ListView.builder(
-               cacheExtent: 1000,
 
                     // shrinkWrap: true,
                     physics: ScrollPhysics(),
@@ -242,8 +241,8 @@ class _SekcijeViewState extends State<SekcijeView> {
                           children: [
                             SizedBox(
                                 width: 200,
-                                height: double.maxFinite,
                                 child: Stack(
+                                  fit: StackFit.expand,
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(25),
@@ -253,10 +252,6 @@ class _SekcijeViewState extends State<SekcijeView> {
                                         //     const Duration(milliseconds: 300),
                                         // fadeOutDuration:
                                         //     const Duration(milliseconds: 300),
-                                        color: Colors.black.withOpacity(0.25),
-                                        colorBlendMode: BlendMode.darken,
-                                        height: double.infinity,
-                                        width: double.maxFinite,
                                         fit: BoxFit.cover,
                                         imageUrl: kategorija.slika!,
                                         // placeholder: (context, ulr) =>
@@ -272,6 +267,12 @@ class _SekcijeViewState extends State<SekcijeView> {
                                         //   ),
                                         // ),
                                       ),
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.black.withValues(alpha: 0.3),
+                                          borderRadius:
+                                              BorderRadius.circular(25)),
                                     ),
                                     Center(
                                         child: AutoSizeText(
