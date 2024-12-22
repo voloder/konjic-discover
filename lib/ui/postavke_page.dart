@@ -1,9 +1,6 @@
-import 'package:discover/main.dart';
 import 'package:discover/postavke.dart';
 import 'package:discover/ui/privacy_policy.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -33,9 +30,18 @@ class _PostavkePageState extends State<PostavkePage> {
     };
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(localizations.settings),
-        ),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        title: Text(localizations.events),
+        // flexibleSpace: ClipRect(
+        //   child: BackdropFilter(
+        //     filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        //     child: Container(
+        //       color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
+        //     ),
+        //   ),
+        // ),
+      ),
         body: Column(
           children: [
             Text(localizations.language),
@@ -88,7 +94,7 @@ class _PostavkePageState extends State<PostavkePage> {
                     .toList(),
               ),
             ),
-            Spacer(flex: 3),
+            const Spacer(flex: 3),
             GestureDetector(
               onTap: () {
                 launchUrl(Uri.parse("https://welcometokonjic.ba/"));
@@ -108,7 +114,7 @@ class _PostavkePageState extends State<PostavkePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: Text(localizations.welcomeToKonjic,
                             textAlign: TextAlign.start,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12,
                                 fontFamily: "Montserrat-Light",
                                 fontWeight: FontWeight.bold)),
@@ -118,7 +124,7 @@ class _PostavkePageState extends State<PostavkePage> {
                 ),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             GestureDetector(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -133,7 +139,7 @@ class _PostavkePageState extends State<PostavkePage> {
                     applicationIcon: Center(
                         child: Image.asset("assets/images/ikonica.png",
                             height: 60)),
-                    children: [PrivacyPolicy()],
+                    children: [const PrivacyPolicy()],
                   );
                 })
           ],

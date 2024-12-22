@@ -23,21 +23,21 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: Text("Map"),
+        title: const Text("Map"),
         backgroundColor:
-            Theme.of(context).colorScheme.background.withOpacity(0),
+            Theme.of(context).colorScheme.surface.withOpacity(0),
         elevation: 0,
         flexibleSpace: ClipRect(
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 7, sigmaY: 7),
             child: Container(
-              color: Theme.of(context).colorScheme.background.withOpacity(0.8),
+              color: Theme.of(context).colorScheme.surface.withOpacity(0.8),
             ),
           ),
         ),
       ),
       body: FlutterMap(
-        options: MapOptions(
+        options: const MapOptions(
             initialCameraFit: CameraFit.coordinates(
                 maxZoom: 15, coordinates: [LatLng(43.6511245, 17.9626887)])),
         children: [

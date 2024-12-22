@@ -3,9 +3,7 @@ import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:discover/entities/dogadjaj.dart';
 import 'package:discover/postavke.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
@@ -66,7 +64,7 @@ class _EventPageState extends State<EventPage> {
                               stops: const [0.5, 0.8],
                               colors: [
                                 Colors.transparent,
-                                Colors.black.withOpacity(0.4),
+                                Colors.black.withOpacity(0.4),          
                               ],
                             ),
                           ),
@@ -95,7 +93,7 @@ class _EventPageState extends State<EventPage> {
                                         .format(event.vrijeme!).replaceFirstMapped(
                                             RegExp(r"(\w+)"),
                                             (match) => match.group(0)!.substring(0, 1).toUpperCase() + match.group(0)!.substring(1)),
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 15,
                                         fontFamily: "Montserrat-Light",
                                         fontWeight: FontWeight.bold,
@@ -111,7 +109,7 @@ class _EventPageState extends State<EventPage> {
                                 shadows: [
                                   Shadow(
                                       color: Colors.black.withOpacity(0.3),
-                                      offset: Offset(0, 0),
+                                      offset: const Offset(0, 0),
                                       blurRadius: 10)
                                 ],
                                 Icons.arrow_back,
@@ -127,7 +125,7 @@ class _EventPageState extends State<EventPage> {
 
             Container(
               margin: const EdgeInsets.only(top: 300),
-              color: Theme.of(context).colorScheme.background,
+              color: Theme.of(context).colorScheme.surface,
               padding: const EdgeInsets.all(12),
               child: Column(
                 children: [
