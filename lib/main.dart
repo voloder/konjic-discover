@@ -4,6 +4,7 @@ import 'package:discover/ui/main_page.dart';
 import 'package:discover/ui/start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -31,8 +32,6 @@ void main() async {
 
   await postavke.ucitaj();
 
-
-
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider.value(value: postavke),
@@ -43,7 +42,6 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-
   const MyApp({super.key});
 
   @override
@@ -53,6 +51,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
+    // setOptimalDisplayMode();
     final backend = Provider.of<Backend>(context, listen: false);
     backend.precacheImagesForDogadjaj(context);
     backend.precacheImagesForKategorija(context);
@@ -60,10 +59,28 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
+  // Future<void> setOptimalDisplayMode() async {
+  //   final List<DisplayMode> supported = await FlutterDisplayMode.supported;
+  //   final DisplayMode active = await FlutterDisplayMode.active;
+
+  //   final List<DisplayMode> sameResolution = supported
+  //       .where((DisplayMode m) =>
+  //           m.width == active.width && m.height == active.height)
+  //       .toList()
+  //     ..sort((DisplayMode a, DisplayMode b) =>
+  //         b.refreshRate.compareTo(a.refreshRate));
+
+  //   final DisplayMode mostOptimalMode =
+  //       sameResolution.isNotEmpty ? sameResolution.first : active;
+
+  //   /// This setting is per session.
+  //   /// Please ensure this was placed with `initState` of your root widget.
+  //   await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
+  // }
+
   @override
   Widget build(BuildContext context) {
     final postavke = Provider.of<Postavke>(context);
-
     return MaterialApp(
         // showPerformanceOverlay: true,
         debugShowCheckedModeBanner: false,
@@ -77,7 +94,7 @@ class _MyAppState extends State<MyApp> {
           fontFamily: "Montserrat",
           colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.blue, surfaceTint: Colors.white),
-          useMaterial3: false,
+          useMaterial3: true,
           brightness: Brightness.light,
         ),
         locale: postavke.jezik == Jezik.bosanski

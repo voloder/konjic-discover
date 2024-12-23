@@ -30,18 +30,23 @@ class _PostavkePageState extends State<PostavkePage> {
     };
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Text(localizations.events),
-        // flexibleSpace: ClipRect(
-        //   child: BackdropFilter(
-        //     filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        //     child: Container(
-        //       color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
-        //     ),
-        //   ),
-        // ),
-      ),
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.surface,
+          elevation: 0,
+          title: Text(
+            localizations.settings,
+            style:
+                TextStyle(color: Theme.of(context).colorScheme.inverseSurface,fontSize: 24),
+          ),
+          // flexibleSpace: ClipRect(
+          //   child: BackdropFilter(
+          //     filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          //     child: Container(
+          //       color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
+          //     ),
+          //   ),
+          // ),
+        ),
         body: Column(
           children: [
             Text(localizations.language),

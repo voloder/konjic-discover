@@ -29,7 +29,6 @@ class _EventsPageState extends State<EventsPage> {
             const begin = Offset(0.0, 1.0);
             const end = Offset.zero;
             const curve = Curves.linearToEaseOut;
-
             var tween =
                 Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
@@ -43,7 +42,6 @@ class _EventsPageState extends State<EventsPage> {
     //   MaterialPageRoute(builder: (context) => DetailsPage(item: item)),
     // );
   }
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -53,7 +51,12 @@ class _EventsPageState extends State<EventsPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Text(localizations.events),
+        title: Text(
+          localizations.events,
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.inverseSurface,
+              fontSize: 24),
+        ),
         elevation: 0,
         // flexibleSpace: ClipRect(
         //   child: BackdropFilter(
@@ -65,13 +68,18 @@ class _EventsPageState extends State<EventsPage> {
         // ),
       ),
       body: ListView.builder(
-          physics:const ScrollPhysics(),
+          shrinkWrap: true,
+          physics: const ScrollPhysics(),
           itemCount: dogadjaji.length,
           cacheExtent: 1000,
           itemBuilder: (context, index) {
             final dogadjaj = dogadjaji[index];
             return GestureDetector(
-                onTap: () => openDogadjajPage(dogadjaj),
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EventPage(event: dogadjaj),
+                    )),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -82,24 +90,32 @@ class _EventsPageState extends State<EventsPage> {
                         color: Colors.black,
                         borderRadius: BorderRadius.circular(30)),
                     child: Stack(
+                      alignment: Alignment.center,
                       children: [
                         CachedNetworkImage(
+                          // memCacheHeight: 300,
                           imageUrl: dogadjaj.slike.first,
                           fit: BoxFit.cover,
+                          // filterQuality: FilterQuality.high,
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              stops: const [0.5, 0.8],
-                              colors: [
-                                Colors.transparent,
-                                Colors.black.withValues(alpha: 0.4),
-                              ],
-                            ),
-                          ),
+                              color: Colors.black.withValues(alpha: 0.3),
+                              borderRadius: BorderRadius.circular(25)),
                         ),
+                        // Container(
+                        //   decoration: BoxDecoration(
+                        //     gradient: LinearGradient(
+                        //       begin: Alignment.topCenter,
+                        //       end: Alignment.bottomCenter,
+                        //       stops: const [0.5, 0.8],
+                        //       colors: [
+                        //         Colors.transparent,
+                        //         Colors.black.withValues(alpha: 0.4),
+                        //       ],
+                        //     ),
+                        //   ),
+                        // ),
                         Positioned(
                           bottom: 10,
                           left: 10,

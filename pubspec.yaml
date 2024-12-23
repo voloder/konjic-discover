@@ -25,7 +25,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.7.1
-
+  flutter_displaymode: ^0.6.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -92,24 +92,25 @@ class Backend {
 
   Future<void> precacheImagesForKategorija(context) async {
     for (Kategorija kategorija in kategorije) {
-      print("precached kategorijas' images");
-
+      // print("precached kategorijas' images");
+      
       precacheImage(CachedNetworkImageProvider(kategorija.slika!), context);
-      print(kategorija.slika);
+      // print(kategorija.slika);
     }
   }
 
   Future<void> precacheImagesForLokacija(context) async {
     for (Lokacija lokacija in lokacije) {
       precacheImage(CachedNetworkImageProvider(lokacija.slike.first), context);
-      print(lokacija.slike.first);
+      // print(lokacija.slike.first);
     }
   }
 
   Future<void> precacheImagesForDogadjaj(context) async {
+    // print("Dogadjaj precache!");
     for (Dogadjaj dogadjaj in dogadjaji) {
       precacheImage(CachedNetworkImageProvider(dogadjaj.slike.first), context);
-      print(dogadjaj.slike.first);
+      // print(dogadjaj.slike.first);
     }
   }
 }

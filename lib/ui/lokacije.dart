@@ -34,43 +34,40 @@ class _LokacijePageState extends State<LokacijePage> {
           flexibleSpace: FlexibleSpaceBar(
             background: Stack(
               children: [
-                Container(
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.only(
-                        bottomLeft: Radius.circular(35),
-                        bottomRight: Radius.circular(35)),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        CachedNetworkImage(
-                            color: Colors.black.withOpacity(0.2),
-                            colorBlendMode: BlendMode.darken,
-                            fadeInDuration: Duration.zero,
-                            imageUrl: widget.kategorija.slika!,
-                            height: 220,
-                            width: MediaQuery.of(context).size.width,
-                            fit: BoxFit.cover),
-                        Text(
-                          (jezik == Jezik.bosanski
-                                  ? widget.kategorija.naziv
-                                  : widget.kategorija.naziv_en)
-                              .toUpperCase(),
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(35),
+                      bottomRight: Radius.circular(35)),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CachedNetworkImage(
+                          // color: Colors.black.withOpacity(0.2),
+                          // colorBlendMode: BlendMode.darken,
+                          // fadeInDuration: Duration.zero,
+                          filterQuality: FilterQuality.high,
+                          imageUrl: widget.kategorija.slika!,
+                          height: 220,
+                          width: MediaQuery.of(context).size.width,
+                          fit: BoxFit.cover),
+                      Text(
+                        (jezik == Jezik.bosanski
+                                ? widget.kategorija.naziv
+                                : widget.kategorija.naziv_en)
+                            .toUpperCase(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
         ),
-
-
         SliverToBoxAdapter(
           child: Column(
             children: [
@@ -151,25 +148,27 @@ class _LokacijePageState extends State<LokacijePage> {
                             Hero(
                               tag: e.slike.first,
                               child: CachedNetworkImage(
-                                fadeInDuration:
-                                    const Duration(milliseconds: 300),
-                                fadeOutDuration:
-                                    const Duration(milliseconds: 300),
+                                // fadeInDuration:
+                                //     const Duration(milliseconds: 300),
+                                // fadeOutDuration:
+                                //     const Duration(milliseconds: 300),
+                                filterQuality: FilterQuality.medium,
                                 imageUrl: e.slike.first,
+
                                 height: 100,
                                 width: 100,
                                 fit: BoxFit.cover,
-                                placeholder: (context, url) =>
-                                    Shimmer.fromColors(
-                                  period: const Duration(milliseconds: 800),
-                                  baseColor: Colors.grey.shade400,
-                                  highlightColor: Colors.grey.shade300,
-                                  child: Container(
-                                    width: 100,
-                                    height: 100,
-                                    color: Colors.grey.shade400,
-                                  ),
-                                ),
+                                // placeholder: (context, url) =>
+                                //     Shimmer.fromColors(
+                                //   period: const Duration(milliseconds: 800),
+                                //   baseColor: Colors.grey.shade400,
+                                //   highlightColor: Colors.grey.shade300,
+                                //   child: Container(
+                                //     width: 100,
+                                //     height: 100,
+                                //     color: Colors.grey.shade400,
+                                //   ),
+                                // ),
                               ),
                             ),
                             Expanded(
