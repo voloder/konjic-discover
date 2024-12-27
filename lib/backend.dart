@@ -40,7 +40,7 @@ class Backend {
         kategorije.add(Kategorija.fromMap(element.data())..id = element.id);
       } catch (e) {
         print("Greska: ${element.data()}");
-        print(e);
+        // print(e);
       }
     }
 

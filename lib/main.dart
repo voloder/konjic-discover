@@ -1,10 +1,11 @@
 import 'package:discover/backend.dart';
 import 'package:discover/postavke.dart';
+import 'package:discover/provider/myBottomNavBarProvider.dart';
+import 'package:discover/ui/home.dart';
 import 'package:discover/ui/main_page.dart';
+import 'package:discover/ui/postavke_page.dart';
 import 'package:discover/ui/start_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_displaymode/flutter_displaymode.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -29,11 +30,12 @@ void main() async {
     return;
   }
   final postavke = Postavke();
-
   await postavke.ucitaj();
 
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(
+          create: (context) => Mybottomnavbarprovider(currentIndex: 1)),
       ChangeNotifierProvider.value(value: postavke),
       Provider.value(value: backend)
     ],
@@ -49,34 +51,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late final Backend backend;
+
   @override
   void initState() {
-    // setOptimalDisplayMode();
-    final backend = Provider.of<Backend>(context, listen: false);
+    backend = Provider.of<Backend>(context, listen: false);
+
     backend.precacheImagesForDogadjaj(context);
     backend.precacheImagesForKategorija(context);
-    backend.precacheImagesForLokacija(context);
+    backend.precacheImagesForLokacija(context); // TODO: implement initState
     super.initState();
   }
-
-  // Future<void> setOptimalDisplayMode() async {
-  //   final List<DisplayMode> supported = await FlutterDisplayMode.supported;
-  //   final DisplayMode active = await FlutterDisplayMode.active;
-
-  //   final List<DisplayMode> sameResolution = supported
-  //       .where((DisplayMode m) =>
-  //           m.width == active.width && m.height == active.height)
-  //       .toList()
-  //     ..sort((DisplayMode a, DisplayMode b) =>
-  //         b.refreshRate.compareTo(a.refreshRate));
-
-  //   final DisplayMode mostOptimalMode =
-  //       sameResolution.isNotEmpty ? sameResolution.first : active;
-
-  //   /// This setting is per session.
-  //   /// Please ensure this was placed with `initState` of your root widget.
-  //   await FlutterDisplayMode.setPreferredMode(mostOptimalMode);
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -42,6 +42,7 @@ class _EventsPageState extends State<EventsPage> {
     //   MaterialPageRoute(builder: (context) => DetailsPage(item: item)),
     // );
   }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
@@ -83,12 +84,15 @@ class _EventsPageState extends State<EventsPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    clipBehavior: Clip.antiAliasWithSaveLayer,
                     width: MediaQuery.of(context).size.width,
                     height: 250,
-                    decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(30)),
+                    clipBehavior: Clip.hardEdge,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                    // decoration: BoxDecoration(
+                    //     color: Colors.black,
+                    //     borderRadius: BorderRadius.circular(30)),
+
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -96,7 +100,7 @@ class _EventsPageState extends State<EventsPage> {
                           // memCacheHeight: 300,
                           imageUrl: dogadjaj.slike.first,
                           fit: BoxFit.cover,
-                          // filterQuality: FilterQuality.high,
+                          filterQuality: FilterQuality.high,
                         ),
                         Container(
                           decoration: BoxDecoration(

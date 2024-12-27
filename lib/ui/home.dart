@@ -7,7 +7,6 @@ import 'package:discover/ui/lokacije.dart';
 import 'package:discover/postavke.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,20 +16,25 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage> {
   late final localizations = AppLocalizations.of(context)!;
   late final naslovImage = const AssetImage("assets/images/konjic.jpg");
+  late final Backend backend;
+  late final List<Sekcija> sekcije;
   // late final naslovImage =  "assets/images/konjic.jpg";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    final backend = Provider.of<Backend>(context, listen: false);
+    sekcije = backend.sekcije;
+  }
+
   @override
   Widget build(BuildContext context) {
     // double sliverAppBarHeight = 130;
-
-    super.build(context);
-    final backend = Provider.of<Backend>(context);
-
-    late final sekcije = backend.sekcije;
-
+    // super.build(context);
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
@@ -41,8 +45,8 @@ class _HomePageState extends State<HomePage>
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
-                      bottomLeft: Radius.circular(38),
-                      bottomRight: Radius.circular(38)),
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25)),
                   image: DecorationImage(
                     image: naslovImage,
                     fit: BoxFit.cover,
@@ -64,14 +68,10 @@ class _HomePageState extends State<HomePage>
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class SekcijeView extends StatefulWidget {
   final List<Sekcija> sekcije;
-
   const SekcijeView({super.key, required this.sekcije});
 
   @override
@@ -79,70 +79,12 @@ class SekcijeView extends StatefulWidget {
 }
 
 class _SekcijeViewState extends State<SekcijeView> {
-  @override
-  Widget build(BuildContext context) {
-    final postavke = Provider.of<Postavke>(context);
-
-    Jezik jezik = postavke.jezik!;
-
-    return ListView.builder(
-        cacheExtent: 1000,
-        shrinkWrap: true,
-        itemCount: widget.sekcije.length,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-          final sekcija = widget.sekcije[index];
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 6, bottom: 5),
-                child: Center(
-                  child: Text(
-                      jezik == Jezik.bosanski ? sekcija.naziv : sekcija.nazivEn,
-                      style: const TextStyle(
-                          fontSize: 24, fontWeight: FontWeight.bold)),
-                ),
-              ),
-              SizedBox(
-                height: 300,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: ListView.builder(
-                    // shrinkWrap: true,
-                    cacheExtent: 1000,
-                    physics: const ScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: sekcija.kategorije.length,
-                    itemBuilder: (context, index) {
-                      final kategorija = sekcija.kategorije[index];
-                      return LocationWidget(
-                        kategorija: kategorija,
-                      );
-                    },
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 35,
-              )
-            ],
-          );
-        });
-  }
-}
-
-class LocationWidget extends StatefulWidget {
-  Kategorija kategorija;
-  LocationWidget({super.key, required this.kategorija});
-
-  @override
-  State<LocationWidget> createState() => _LocationWidgetState();
-}
-
-class _LocationWidgetState extends State<LocationWidget> {
-  void openLokacijePage(Kategorija kategorija) {
+  // @override
+  // void didChangeDependencies() {
+  //   // TODO: implement didChangeDependencies
+  //   super.didChangeDependencies();
+  // }
+  openFunction(Kategorija kategorija) {
     Navigator.push(
         context,
         PageRouteBuilder(
@@ -171,69 +113,191 @@ class _LocationWidgetState extends State<LocationWidget> {
   @override
   Widget build(BuildContext context) {
     final postavke = Provider.of<Postavke>(context);
+    Jezik jezik = postavke.jezik!;
+    return ListView.builder(
+        cacheExtent: 1000,
+        shrinkWrap: true,
+        itemCount: widget.sekcije.length,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          final sekcija = widget.sekcije[index];
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 6, bottom: 5),
+                child: Center(
+                  child: Text(
+                      jezik == Jezik.bosanski ? sekcija.naziv : sekcija.nazivEn,
+                      style: const TextStyle(
+                          fontSize: 24, fontWeight: FontWeight.bold)),
+                ),
+              ),
+              SizedBox(
+                height: 300,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 5),
+                  child: ListView.builder(
+                    // shrinkWrap: true,
+                    cacheExtent: 1000,
+                    physics: const ScrollPhysics(),
+                    scrollDirection: Axis.horizontal,
+                    itemCount: sekcija.kategorije.length,
+                    itemBuilder: (context, index) {
+                      final kategorija = sekcija.kategorije[index];
+                      return LocationWidget(
+                        kategorija: kategorija,
+                        openFunction: openFunction,
+                      );
+                    },
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 35,
+              )
+            ],
+          );
+        });
+  }
+}
 
+class LocationWidget extends StatelessWidget {
+  final Kategorija kategorija;
+  final Function? openFunction;
+  const LocationWidget(
+      {super.key, required this.kategorija, required this.openFunction});
+
+  // void openLokacijePage(Kategorija kategorija) {
+  //   Navigator.push(
+  //       context,
+  //       PageRouteBuilder(
+  //         pageBuilder: (context, animation, secondaryAnimation) => LokacijePage(
+  //           kategorija: kategorija,
+  //         ),
+  //         transitionsBuilder: (context, animation, secondaryAnimation, child) {
+  //           const begin = Offset(0.0, 1.0);
+  //           const end = Offset.zero;
+  //           const curve = Curves.linearToEaseOut;
+
+  //           var tween =
+  //               Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+  //           return SlideTransition(
+  //             position: animation.drive(tween),
+  //             child: child,
+  //           );
+  //         },
+  //       ));
+  //   // Navigator.of(context).push(
+  //   //   MaterialPageRoute(builder: (context) => DetailsPage(item: item)),
+  //   // );
+  // }
+
+  @override
+  Widget build(BuildContext context) {
+    final postavke = Provider.of<Postavke>(context);
     Jezik jezik = postavke.jezik!;
 
-    return GestureDetector(
-      onTap: () => openLokacijePage(widget.kategorija),
-      child: Row(
-        children: [
-          SizedBox(
-              width: 200,
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(25),
-                    // child: Container(color: Colors.red),
-                    child: CachedNetworkImage(
-                      // fadeInDuration:
-                      //     const Duration(milliseconds: 300),
-                      // fadeOutDuration:
-                      //     const Duration(milliseconds: 300),
-                      filterQuality: FilterQuality.high,
-                      fit: BoxFit.cover,
-                      imageUrl: widget.kategorija.slika!,
-                      // memCacheWidth: 700,
-                      // memCacheHeight:700,
-
-                      // placeholder: (context, ulr) =>
-                      //     Shimmer.fromColors(
-                      //   period:
-                      //       const Duration(milliseconds: 800),
-                      //   baseColor: Colors.grey.shade400,
-                      //   highlightColor: Colors.grey.shade300,
-                      //   child: Container(
-                      //     width: 120,
-                      //     height: 170,
-                      //     color: Colors.grey.shade400,
-                      //   ),
-                      // ),
-                    ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(25)),
-                  ),
-                  Center(
-                      child: AutoSizeText(
-                    minFontSize: 20,
-                    softWrap: true,
-                    wrapWords: false,
-                    jezik == Jezik.bosanski
-                        ? widget.kategorija.naziv.toUpperCase()
-                        : widget.kategorija.naziv_en.toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(color: Colors.white),
-                  )),
-                ],
-              )),
-          const SizedBox(
-            width: 15,
-          )
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(right: 20),
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        width: 200,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+        child: GestureDetector(
+          onTap: () => openFunction!(kategorija),
+          child: Stack(fit: StackFit.expand, children: [
+            CachedNetworkImage(
+              alignment: Alignment.center,
+              imageUrl: kategorija.slika!,
+              fit: BoxFit.cover,
+              filterQuality: FilterQuality.medium,
+            ),
+            Center(
+              child: Text(
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: Colors.white, fontSize: 22,fontWeight: FontWeight.bold),
+                softWrap: true,
+                jezik == Jezik.bosanski
+                    ? kategorija.naziv.toUpperCase()
+                    : kategorija.naziv_en.toUpperCase(),
+              ),
+            )
+          ]),
+        ),
       ),
     );
   }
 }
+// Center(
+//                 child: AutoSizeText(
+//               minFontSize: 20,
+//               softWrap: true,
+//               wrapWords: false,
+              // jezik == Jezik.bosanski
+              //     ? kategorija.naziv.toUpperCase()
+              //     : kategorija.naziv_en.toUpperCase(),
+//               textAlign: TextAlign.center,
+//               style: const TextStyle(color: Colors.white),
+//             )
+            
+//             ),
+
+// return GestureDetector(
+//       onTap: () => openFunction!(kategorija),
+//       child: Row(
+//         children: [
+//           SizedBox(
+//               width: 200,
+//               child: Stack(
+//                 fit: StackFit.expand,
+//                 children: [
+//                   CachedNetworkImage(
+//                     // fadeInDuration:
+//                     //     const Duration(milliseconds: 300),
+//                     // fadeOutDuration:
+//                     //     const Duration(milliseconds: 300),
+//                     // filterQuality: FilterQuality.high,
+//                     fit: BoxFit.cover,
+//                     imageUrl: kategorija.slika!,
+//                     // memCacheWidth: 700,
+//                     // memCacheHeight:700,
+
+//                     // placeholder: (context, ulr) =>
+//                     //     Shimmer.fromColors(
+//                     //   period:
+//                     //       const Duration(milliseconds: 800),
+//                     //   baseColor: Colors.grey.shade400,
+//                     //   highlightColor: Colors.grey.shade300,
+//                     //   child: Container(
+//                     //     width: 120,
+//                     //     height: 170,
+//                     //     color: Colors.grey.shade400,
+//                     //   ),
+//                     // ),
+//                   ),
+//                   Container(
+//                     decoration: BoxDecoration(
+//                         color: Colors.black.withValues(alpha: 0.3),
+//                         borderRadius: BorderRadius.circular(25)),
+//                   ),
+//                   Center(
+//                       child: AutoSizeText(
+//                     minFontSize: 20,
+//                     softWrap: true,
+//                     wrapWords: false,
+//                     jezik == Jezik.bosanski
+//                         ? kategorija.naziv.toUpperCase()
+//                         : kategorija.naziv_en.toUpperCase(),
+//                     textAlign: TextAlign.center,
+//                     style: const TextStyle(color: Colors.white),
+//                   )),
+//                 ],
+//               )),
+//           const SizedBox(
+//             width: 15,
+//           )
+//         ],
+//       ),
+//     );
