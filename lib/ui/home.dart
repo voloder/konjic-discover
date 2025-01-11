@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:discover/backend.dart';
@@ -10,15 +12,24 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final int index;
+  const HomePage({super.key, required this.index});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  final List<String> titleImages = [
+    "assets/images/title1.jpg",
+    "assets/images/title2.jpg",
+    "assets/images/title3.jpg",
+  ];
+  
   late final localizations = AppLocalizations.of(context)!;
-  late final naslovImage = const AssetImage("assets/images/konjic.jpg");
+  // late final naslovImage = const AssetImage("assets/images/konjic.jpg");
+  late String naslovImage = titleImages[0];
+  int countingIndex = 0;
   late final Backend backend;
   late final List<Sekcija> sekcije;
   // late final naslovImage =  "assets/images/konjic.jpg";
@@ -31,8 +42,26 @@ class _HomePageState extends State<HomePage> {
     sekcije = backend.sekcije;
   }
 
+  void printAfter3s() {
+    if (countingIndex >= 3) {
+      countingIndex = 0;
+    }
+    Timer(
+      const Duration(seconds: 3),
+      () {
+        setState(() {});
+
+        naslovImage = titleImages[countingIndex];
+        countingIndex++;
+      print(countingIndex);
+
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    printAfter3s();
     // double sliverAppBarHeight = 130;
     // super.build(context);
     return Scaffold(
@@ -48,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                       bottomLeft: Radius.circular(25),
                       bottomRight: Radius.circular(25)),
                   image: DecorationImage(
-                    image: naslovImage,
+                    image: AssetImage(naslovImage),
                     fit: BoxFit.cover,
                     filterQuality: FilterQuality.high,
                   )),
@@ -70,6 +99,28 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+//  Container(
+//               height: 210,
+//               width: double.infinity,
+//               decoration: BoxDecoration(
+//                   borderRadius: const BorderRadius.only(
+//                       bottomLeft: Radius.circular(25),
+//                       bottomRight: Radius.circular(25)),
+//                   image: DecorationImage(
+//                     image: naslovImage,
+//                     fit: BoxFit.cover,
+//                     filterQuality: FilterQuality.high,
+//                   )),
+//               child: const Center(
+//                 child: Text(
+//                   "KONJIC",
+//                   style: TextStyle(
+//                       fontSize: 32,
+//                       fontWeight: FontWeight.bold,
+//                       color: Colors.white),
+//                 ),
+//               ),
+//             ),
 class SekcijeView extends StatefulWidget {
   final List<Sekcija> sekcije;
   const SekcijeView({super.key, required this.sekcije});
@@ -115,12 +166,14 @@ class _SekcijeViewState extends State<SekcijeView> {
     final postavke = Provider.of<Postavke>(context);
     Jezik jezik = postavke.jezik!;
     return ListView.builder(
-        cacheExtent: 1000,
+        cacheExtent: 250,
+        // cacheExtent: 1000,
         shrinkWrap: true,
         itemCount: widget.sekcije.length,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           final sekcija = widget.sekcije[index];
+          // print('Building item $index');
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -139,7 +192,8 @@ class _SekcijeViewState extends State<SekcijeView> {
                   padding: const EdgeInsets.only(left: 5),
                   child: ListView.builder(
                     // shrinkWrap: true,
-                    cacheExtent: 1000,
+                    cacheExtent: 0,
+
                     physics: const ScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: sekcija.kategorije.length,
@@ -168,32 +222,6 @@ class LocationWidget extends StatelessWidget {
   const LocationWidget(
       {super.key, required this.kategorija, required this.openFunction});
 
-  // void openLokacijePage(Kategorija kategorija) {
-  //   Navigator.push(
-  //       context,
-  //       PageRouteBuilder(
-  //         pageBuilder: (context, animation, secondaryAnimation) => LokacijePage(
-  //           kategorija: kategorija,
-  //         ),
-  //         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-  //           const begin = Offset(0.0, 1.0);
-  //           const end = Offset.zero;
-  //           const curve = Curves.linearToEaseOut;
-
-  //           var tween =
-  //               Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-  //           return SlideTransition(
-  //             position: animation.drive(tween),
-  //             child: child,
-  //           );
-  //         },
-  //       ));
-  //   // Navigator.of(context).push(
-  //   //   MaterialPageRoute(builder: (context) => DetailsPage(item: item)),
-  //   // );
-  // }
-
   @override
   Widget build(BuildContext context) {
     final postavke = Provider.of<Postavke>(context);
@@ -217,7 +245,10 @@ class LocationWidget extends StatelessWidget {
             Center(
               child: Text(
                 textAlign: TextAlign.center,
-                style: const TextStyle(color: Colors.white, fontSize: 22,fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold),
                 softWrap: true,
                 jezik == Jezik.bosanski
                     ? kategorija.naziv.toUpperCase()

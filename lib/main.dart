@@ -1,19 +1,18 @@
 import 'package:discover/backend.dart';
 import 'package:discover/postavke.dart';
 import 'package:discover/provider/myBottomNavBarProvider.dart';
-import 'package:discover/ui/home.dart';
 import 'package:discover/ui/main_page.dart';
-import 'package:discover/ui/postavke_page.dart';
 import 'package:discover/ui/start_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // SystemChrome.setPreferredOrientations(
-  //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   final backend = Backend();
   try {
@@ -29,6 +28,7 @@ void main() async {
     ));
     return;
   }
+  
   final postavke = Postavke();
   await postavke.ucitaj();
 
@@ -55,11 +55,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    backend = Provider.of<Backend>(context, listen: false);
-
+    final backend = Provider.of<Backend>(context, listen: false);
     backend.precacheImagesForDogadjaj(context);
     backend.precacheImagesForKategorija(context);
-    backend.precacheImagesForLokacija(context); // TODO: implement initState
+    backend.precacheImagesForLokacija(context);
     super.initState();
   }
 

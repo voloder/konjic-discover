@@ -21,7 +21,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController(initialPage: 1);
+    _pageController = PageController(initialPage: 1, viewportFraction: 1);
     // _pageController.addListener(() {
     //   // print("test");
     //   // setState(() {
@@ -38,8 +38,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   void onTap(int index) {
-    
-      
     _pageController.animateToPage(index,
         duration: const Duration(milliseconds: 500), curve: Curves.ease);
   }
@@ -51,28 +49,38 @@ class _MainPageState extends State<MainPage> {
   //   });
   // }
 
-  final List<dynamic> list = const [
-    // Scaffold(backgroundColor: Colors.yellow)
-    // Scaffold(backgroundColor: Colors.black),
-    // Scaffold(backgroundColor: Colors.red),
-    EventsPage(),
-    HomePage(),
-    PostavkePage(),
-  ];
+  // final List<dynamic> list = const [
+  //   // Scaffold(backgroundColor: Colors.yellow)
+  //   // Scaffold(backgroundColor: Colors.black),
+  //   // Scaffold(backgroundColor: Colors.red),
+  //   EventsPage(),
+  //   HomePage(),
+  //   PostavkePage(),
+  // ];
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return Scaffold(
       body: PageView.builder(
-        itemCount: list.length,
+        itemCount: 3,
         controller: _pageController,
         // pageSnapping: true,
         physics: const ClampingScrollPhysics(),
         itemBuilder: (context, index) {
-          return list[index];
+          switch (index) {
+            case 1:
+              return HomePage(index: index);
+            case 0:
+              return EventsPage(index: index);
+            case 2:
+              return PostavkePage(index: index);
+          }
+          ;
         },
-        onPageChanged: (value) => Provider.of<Mybottomnavbarprovider>(context, listen: false).setvalue(value),
+        onPageChanged: (value) =>
+            Provider.of<Mybottomnavbarprovider>(context, listen: false)
+                .setvalue(value),
       ),
       bottomNavigationBar:
           Bottomnavbar(onTapped: onTap, localizations: localizations),

@@ -64,7 +64,7 @@ class _EventPageState extends State<EventPage> {
                               stops: const [0.5, 0.8],
                               colors: [
                                 Colors.transparent,
-                                Colors.black.withOpacity(0.4),          
+                                Colors.black.withOpacity(0.4),
                               ],
                             ),
                           ),
@@ -82,17 +82,27 @@ class _EventPageState extends State<EventPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(postavke.jezik == Jezik.bosanski ? event.naziv : event.naziv_en,
+                              Text(
+                                  postavke.jezik == Jezik.bosanski
+                                      ? event.naziv
+                                      : event.naziv_en,
                                   style: const TextStyle(
                                       fontSize: 30,
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold)),
                               if (event.vrijeme != null)
                                 Text(
-                                    DateFormat("EEEE, d.M.y", localizations.localeName)
-                                        .format(event.vrijeme!).replaceFirstMapped(
+                                    DateFormat("EEEE, d.M.y",
+                                            localizations.localeName)
+                                        .format(event.vrijeme!)
+                                        .replaceFirstMapped(
                                             RegExp(r"(\w+)"),
-                                            (match) => match.group(0)!.substring(0, 1).toUpperCase() + match.group(0)!.substring(1)),
+                                            (match) =>
+                                                match
+                                                    .group(0)!
+                                                    .substring(0, 1)
+                                                    .toUpperCase() +
+                                                match.group(0)!.substring(1)),
                                     style: const TextStyle(
                                         fontSize: 15,
                                         fontFamily: "Montserrat-Light",
@@ -122,7 +132,6 @@ class _EventPageState extends State<EventPage> {
                       ],
                     ),
                   )),
-
             Container(
               margin: const EdgeInsets.only(top: 300),
               color: Theme.of(context).colorScheme.surface,
@@ -131,15 +140,36 @@ class _EventPageState extends State<EventPage> {
                 children: [
                   Center(
                       child: MarkdownBody(
-
-                          styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+                          imageBuilder: (uri, title, alt) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical:5),
+                              child: Container(
+                                                      
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: CachedNetworkImage(
+                                    imageUrl: uri.toString(),
+                                    fit: BoxFit.contain,
+                                  )),
+                            );
+                          },
+                          styleSheet:
+                              MarkdownStyleSheet.fromTheme(Theme.of(context))
+                                  .copyWith(
+                            
+                            textScaler: TextScaler.linear(1.085),
                             textAlign: WrapAlignment.spaceEvenly,
                             blockquoteDecoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.secondaryContainer,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .secondaryContainer,
                               borderRadius: BorderRadius.circular(2.0),
                             ),
                           ),
-                          data: postavke.jezik == Jezik.bosanski ? event.opis : event.opis_en))
+                          data: postavke.jezik == Jezik.bosanski
+                              ? event.opis
+                              : event.opis_en))
                 ],
               ),
             ),
@@ -149,7 +179,9 @@ class _EventPageState extends State<EventPage> {
                 duration: const Duration(milliseconds: 100),
                 opacity: offset > (_imageHeight / 1.3) ? 1.0 : 0.0,
                 child: AppBar(
-                  title: Text(postavke.jezik == Jezik.bosanski ? event.naziv : event.naziv_en),
+                  title: Text(postavke.jezik == Jezik.bosanski
+                      ? event.naziv
+                      : event.naziv_en),
                 ),
               ),
             ),

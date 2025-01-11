@@ -11,13 +11,30 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class EventsPage extends StatefulWidget {
-  const EventsPage({super.key});
+  final int index;
+  const EventsPage({super.key, required this.index});
 
   @override
   State<EventsPage> createState() => _EventsPageState();
 }
 
 class _EventsPageState extends State<EventsPage> {
+  late Color? textColor;
+  late Color? bgColor;
+  late final BorderRadius borderRadius = BorderRadius.circular(38);
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    textColor = Theme.of(context).colorScheme.inverseSurface;
+    bgColor = Theme.of(context).colorScheme.surface;
+    super.didChangeDependencies();
+  }
+
   void openDogadjajPage(Dogadjaj dogadjaj) {
     Navigator.push(
         context,
@@ -51,28 +68,18 @@ class _EventsPageState extends State<EventsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: bgColor,
         title: Text(
           localizations.events,
-          style: TextStyle(
-              color: Theme.of(context).colorScheme.inverseSurface,
-              fontSize: 24),
+          style: TextStyle(color: textColor, fontSize: 24),
         ),
         elevation: 0,
-        // flexibleSpace: ClipRect(
-        //   child: BackdropFilter(
-        //     filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        //     child: Container(
-        //       color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
-        //     ),
-        //   ),
-        // ),
       ),
       body: ListView.builder(
           shrinkWrap: true,
           physics: const ScrollPhysics(),
           itemCount: dogadjaji.length,
-          cacheExtent: 1000,
+          cacheExtent: 100,
           itemBuilder: (context, index) {
             final dogadjaj = dogadjaji[index];
             return GestureDetector(
@@ -84,27 +91,26 @@ class _EventsPageState extends State<EventsPage> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 250,
                     clipBehavior: Clip.hardEdge,
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(30)),
+                    height: 260,
+                    decoration: BoxDecoration(borderRadius: borderRadius),
+
                     // decoration: BoxDecoration(
                     //     color: Colors.black,
                     //     borderRadius: BorderRadius.circular(30)),
 
                     child: Stack(
                       alignment: Alignment.center,
+                      fit: StackFit.expand,
                       children: [
                         CachedNetworkImage(
-                          // memCacheHeight: 300,
                           imageUrl: dogadjaj.slike.first,
                           fit: BoxFit.cover,
-                          filterQuality: FilterQuality.high,
+                          // filterQuality: FilterQuality.high,
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.3),
+                              color: Colors.black.withValues(alpha: 0.2),
                               borderRadius: BorderRadius.circular(25)),
                         ),
                         // Container(

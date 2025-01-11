@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:discover/entities/kategorija.dart';
+import 'package:discover/entities/lokacija.dart';
 import 'package:discover/postavke.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,6 +19,32 @@ class LokacijePage extends StatefulWidget {
 }
 
 class _LokacijePageState extends State<LokacijePage> {
+
+  openFunction(Lokacija e) {
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => LokacijaPage(
+            lokacija: e,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(-1.0, 0.0);
+            const end = Offset.zero;
+            const curve = Curves.linearToEaseOut;
+
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          },
+        ));
+    // Navigator.of(context).push(
+    //   MaterialPageRoute(builder: (context) => DetailsPage(item: item)),
+    // );
+  }
   @override
   Widget build(BuildContext context) {
     final postavke = Provider.of<Postavke>(context);
@@ -27,7 +54,7 @@ class _LokacijePageState extends State<LokacijePage> {
     return Scaffold(
       // title: Text(jezik == Jezik.bosanski ? kategorija.naziv : kategorija.naziv_en),
 
-      body: CustomScrollView(slivers: [
+      body: CustomScrollView(physics: const ScrollPhysics(), slivers: [
         SliverAppBar(
           iconTheme: const IconThemeData(color: Colors.white),
           collapsedHeight: 180,
@@ -120,10 +147,7 @@ class _LokacijePageState extends State<LokacijePage> {
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => LokacijaPage(lokacija: e)));
-                    },
+                    onTap: () => openFunction(e),
                     child: FadeIn(
                       duration: Duration(milliseconds: 250 + (i * 300)),
                       child: Container(
@@ -145,14 +169,14 @@ class _LokacijePageState extends State<LokacijePage> {
                             ]),
                         child: Row(
                           children: [
-                            Hero(
-                              tag: e.slike.first,
-                              child: CachedNetworkImage(
+                            // Hero(
+                            //   tag: e.slike.first,
+                               CachedNetworkImage(
                                 // fadeInDuration:
                                 //     const Duration(milliseconds: 300),
                                 // fadeOutDuration:
                                 //     const Duration(milliseconds: 300),
-                                filterQuality: FilterQuality.medium,
+                                filterQuality: FilterQuality.high,
                                 imageUrl: e.slike.first,
 
                                 height: 100,
@@ -170,7 +194,7 @@ class _LokacijePageState extends State<LokacijePage> {
                                 //   ),
                                 // ),
                               ),
-                            ),
+                            // ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),

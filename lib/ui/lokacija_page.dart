@@ -59,31 +59,31 @@ class _LokacijaPageState extends State<LokacijaPage> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20),
-                                    child: Hero(
-                                      tag: e,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      ZoomedPictures(url: e)));
-                                          Hero(
-                                            tag: "testing",
-                                            child: ZoomedPictures(
-                                              url: e,
-                                            ),
-                                          );
-                                        },
-                                        child: CachedNetworkImage(
-                                          height: 270,
-                                          width: double.infinity,
-                                          fit: BoxFit.cover,
-                                          imageUrl: e,
-                                          fadeOutDuration:
-                                              const Duration(milliseconds: 300),
-                                        ),
+                                    // child: Hero(
+                                    //   tag: e,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ZoomedPictures(url: e)));
+                                        Hero(
+                                          tag: "testing",
+                                          child: ZoomedPictures(
+                                            url: e,
+                                          ),
+                                        );
+                                      },
+                                      child: CachedNetworkImage(
+                                        height: 270,
+                                        width: double.infinity,
+                                        fit: BoxFit.cover,
+                                        imageUrl: e,
+                                        fadeOutDuration:
+                                            const Duration(milliseconds: 300),
                                       ),
                                     ),
+                                    // ),
                                   ),
                                 ))
                             .toList(),

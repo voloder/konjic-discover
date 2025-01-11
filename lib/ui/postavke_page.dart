@@ -6,7 +6,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PostavkePage extends StatefulWidget {
-  const PostavkePage({super.key});
+  final int index;
+  const PostavkePage({super.key,required this.index});
 
   @override
   State<PostavkePage> createState() => _PostavkePageState();
@@ -35,8 +36,9 @@ class _PostavkePageState extends State<PostavkePage> {
           elevation: 0,
           title: Text(
             localizations.settings,
-            style:
-                TextStyle(color: Theme.of(context).colorScheme.inverseSurface,fontSize: 24),
+            style: TextStyle(
+                color: Theme.of(context).colorScheme.inverseSurface,
+                fontSize: 24),
           ),
           // flexibleSpace: ClipRect(
           //   child: BackdropFilter(
