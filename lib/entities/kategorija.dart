@@ -13,7 +13,7 @@ class Kategorija {
   Kategorija({required this.slika, required this.naziv, required this.sekcija, required this.naziv_en, this.priority});
 
   factory Kategorija.fromMap(Map<String, dynamic> map) {
-    print(map['id']);
+    // print(map['id']);
     return Kategorija(
       slika: map['slika'],
       naziv: map['naziv'],

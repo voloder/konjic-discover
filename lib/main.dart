@@ -2,6 +2,7 @@ import 'package:discover/backend.dart';
 import 'package:discover/postavke.dart';
 import 'package:discover/provider/myBottomNavBarProvider.dart';
 import 'package:discover/ui/main_page.dart';
+import 'package:discover/ui/splash_screen.dart';
 import 'package:discover/ui/start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,8 +12,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  // SystemChrome.setPreferredOrientations(
+  //     [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
   final backend = Backend();
   try {
@@ -101,7 +102,7 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
           brightness: Brightness.dark,
         ),
-        home: postavke.prviPut! ? const StartPage() : const MainPage()
+        home: postavke.prviPut! ? const StartPage() : const SplashScreen()
         // home: const HomePage(),
         );
   }

@@ -82,6 +82,8 @@ class Backend {
           .where((element) => element.kategorija == kategorija.id)
           .toList();
     }
+
+    sekcije.sort((a, b) => (b.priority ?? 0).compareTo(a.priority ?? 0));
   }
 
   // void test() {

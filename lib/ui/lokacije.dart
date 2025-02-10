@@ -5,7 +5,6 @@ import 'package:discover/entities/lokacija.dart';
 import 'package:discover/postavke.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 import 'lokacija_page.dart';
 
@@ -72,7 +71,6 @@ class _LokacijePageState extends State<LokacijePage> {
                           // color: Colors.black.withOpacity(0.2),
                           // colorBlendMode: BlendMode.darken,
                           // fadeInDuration: Duration.zero,
-                          filterQuality: FilterQuality.high,
                           imageUrl: widget.kategorija.slika!,
                           height: 220,
                           width: MediaQuery.of(context).size.width,

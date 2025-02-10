@@ -11,8 +11,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class EventsPage extends StatefulWidget {
-  final int index;
-  const EventsPage({super.key, required this.index});
+  // final int index;
+  const EventsPage({super.key});
 
   @override
   State<EventsPage> createState() => _EventsPageState();

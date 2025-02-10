@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:discover/backend.dart';
 import 'package:discover/entities/kategorija.dart';
@@ -12,8 +11,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
-  final int index;
-  const HomePage({super.key, required this.index});
+  // final int index;
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -25,7 +24,7 @@ class _HomePageState extends State<HomePage> {
     "assets/images/title2.jpg",
     "assets/images/title3.jpg",
   ];
-  
+
   late final localizations = AppLocalizations.of(context)!;
   // late final naslovImage = const AssetImage("assets/images/konjic.jpg");
   late String naslovImage = titleImages[0];
@@ -53,15 +52,13 @@ class _HomePageState extends State<HomePage> {
 
         naslovImage = titleImages[countingIndex];
         countingIndex++;
-      print(countingIndex);
-
       },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    printAfter3s();
+    // printAfter3s();
     // double sliverAppBarHeight = 130;
     // super.build(context);
     return Scaffold(
@@ -146,7 +143,6 @@ class _SekcijeViewState extends State<SekcijeView> {
             const begin = Offset(0.0, 1.0);
             const end = Offset.zero;
             const curve = Curves.linearToEaseOut;
-
             var tween =
                 Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
@@ -160,6 +156,25 @@ class _SekcijeViewState extends State<SekcijeView> {
     //   MaterialPageRoute(builder: (context) => DetailsPage(item: item)),
     // );
   }
+
+  //  sortByPriority(Sekcija sekcija){
+  //   int x = 0;
+  //   while (x < sekcija.kategorije.length){
+  //     int y = x + 1;
+  //     while (y < sekcija.kategorije.length){
+  //       if (sekcija.kategorije[x].priority! > sekcija.kategorije[y].priority!){
+  //         Kategorija temp = sekcija.kategorije[x];
+  //         sekcija.kategorije[x] = sekcija.kategorije[y];
+  //         sekcija.kategorije[y] = temp;
+  //       }
+  //       y++;
+  //     }
+  //     x++;
+  //   }
+
+  //  }// Ok glup sam ovo ne treba moze se preko backenda
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -187,24 +202,25 @@ class _SekcijeViewState extends State<SekcijeView> {
                 ),
               ),
               SizedBox(
-                height: 300,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 5),
-                  child: ListView.builder(
-                    // shrinkWrap: true,
-                    cacheExtent: 0,
+                height: 250,
+                width: MediaQuery.of(context).size.width,
+                child: PageView.builder(
+                  // shrinkWrap: true,  
 
-                    physics: const ScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: sekcija.kategorije.length,
-                    itemBuilder: (context, index) {
-                      final kategorija = sekcija.kategorije[index];
-                      return LocationWidget(
-                        kategorija: kategorija,
-                        openFunction: openFunction,
-                      );
-                    },
-                  ),
+                  physics: const ScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+
+                  itemCount: sekcija.kategorije.length,
+                  itemBuilder: (context, index) {
+                    // sortByPriority(sekcija);
+                    final kategorija = sekcija.kategorije[index];
+                    
+
+                    return LocationWidget(
+                      kategorija: kategorija,
+                      openFunction: openFunction,
+                    );
+                  },
                 ),
               ),
               const SizedBox(
@@ -228,10 +244,10 @@ class LocationWidget extends StatelessWidget {
     Jezik jezik = postavke.jezik!;
 
     return Padding(
-      padding: const EdgeInsets.only(right: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Container(
         clipBehavior: Clip.hardEdge,
-        width: 200,
+        width: MediaQuery.of(context).size.width - 10,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
         child: GestureDetector(
           onTap: () => openFunction!(kategorija),
@@ -332,3 +348,59 @@ class LocationWidget extends StatelessWidget {
 //         ],
 //       ),
 //     );
+
+
+
+
+
+
+
+//  return ListView.builder(
+//         cacheExtent: 250,
+//         // cacheExtent: 1000,
+//         shrinkWrap: true,
+//         itemCount: widget.sekcije.length,
+//         physics: const NeverScrollableScrollPhysics(),
+//         itemBuilder: (context, index) {
+//           final sekcija = widget.sekcije[index];
+//           // print('Building item $index');
+//           return Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Padding(
+//                 padding: const EdgeInsets.only(left: 6, bottom: 5),
+//                 child: Center(
+//                   child: Text(
+//                       jezik == Jezik.bosanski ? sekcija.naziv : sekcija.nazivEn,
+//                       style: const TextStyle(
+//                           fontSize: 24, fontWeight: FontWeight.bold)),
+//                 ),
+//               ),
+//               SizedBox(
+//                 height: 270,
+//                 child: Padding(
+//                   padding: const EdgeInsets.only(left: 5),
+//                   child: ListView.builder(
+//                     // shrinkWrap: true,
+//                     cacheExtent: 0,
+
+//                     physics: const ScrollPhysics(),
+//                     scrollDirection: Axis.horizontal,
+                    
+//                     itemCount: sekcija.kategorije.length,
+//                     itemBuilder: (context, index) {
+//                       final kategorija = sekcija.kategorije[index];
+//                       return LocationWidget(
+//                         kategorija: kategorija,
+//                         openFunction: openFunction,
+//                       );
+//                     },
+//                   ),
+//                 ),
+//               ),
+//               const SizedBox(
+//                 height: 35,
+//               )
+//             ],
+//           );
+//         });

@@ -70,11 +70,11 @@ class _MainPageState extends State<MainPage> {
         itemBuilder: (context, index) {
           switch (index) {
             case 1:
-              return HomePage(index: index);
+              return const HomePage();
             case 0:
-              return EventsPage(index: index);
+              return const EventsPage();
             case 2:
-              return PostavkePage(index: index);
+              return const PostavkePage();
           }
           ;
         },
