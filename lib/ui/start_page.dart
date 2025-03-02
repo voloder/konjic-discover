@@ -1,4 +1,5 @@
 import 'package:discover/postavke.dart';
+import 'package:discover/ui/language_model.dart';
 import 'package:discover/ui/main_page.dart';
 import 'package:discover/ui/privacy_policy.dart';
 import 'package:flutter/material.dart';
@@ -17,16 +18,27 @@ class _StartPageState extends State<StartPage> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
+    Map<Jezik, LanguageModel> jezici = {
+      Jezik.bosanski: LanguageModel(
+          countryFlag: "🇧🇦", languageName: localizations.bosnian),
+      Jezik.engleski: LanguageModel(
+          countryFlag: "🇺🇸", languageName: localizations.english),
+      Jezik.turski: LanguageModel(
+          countryFlag: "🇹🇷", languageName: localizations.turkish),
+      Jezik.njemacki: LanguageModel(
+          countryFlag: "🇩🇪", languageName: localizations.german),
+    };
+
     final postavke = Provider.of<Postavke>(context);
     final jezik = postavke.jezik!;
-
+    
     return Scaffold(
         body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Spacer(),
-          Image.asset("assets/images/ikonica.png", height: 85),
+          Image.asset("assets/images/ikonica.png", height: 135),
           const Spacer(),
           Text(
             localizations.chooseLanguage,
@@ -37,35 +49,64 @@ class _StartPageState extends State<StartPage> {
             textAlign: TextAlign.center,
           ),
           const Spacer(),
-          DropdownMenu(
-            textStyle: const TextStyle(
-              color: Colors.blue,
-              fontSize: 15,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ExpansionTile(
+              collapsedShape: RoundedRectangleBorder(
+                  side:
+                      BorderSide(color: Theme.of(context).colorScheme.onSurface),
+                  borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                  side:
+                      BorderSide(color: Theme.of(context).colorScheme.onSurface),
+                  borderRadius: BorderRadius.circular(10)),
+              title: Text(jezici[postavke.jezik]!.languageName),
+              children: jezici.entries
+                    .where((e) => e.key != postavke.jezik)
+                    .map((e) => ListTile(
+                      trailing: Text(
+                        e.value.countryFlag,
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                      title: Text(e.value.languageName),
+                      onTap: () {
+                        setState(() {
+                        postavke.postaviJezik(e.key);
+                        });
+                      },
+                      ))
+                  .toList(),
             ),
-            initialSelection: jezik,
-            inputDecorationTheme: InputDecorationTheme(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-              labelStyle: const TextStyle(color: Colors.lightBlue),
-              enabledBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: Colors.blue, width: 2),
-                borderRadius: BorderRadius.circular(6),
-              ),
-            ),
-            dropdownMenuEntries: const <DropdownMenuEntry>[
-              DropdownMenuEntry(
-                label: "Bosanski",
-                value: Jezik.bosanski,
-              ),
-              DropdownMenuEntry(
-                label: "English",
-                value: Jezik.engleski,
-              ),
-            ],
-            onSelected: (value) {
-              postavke.postaviJezik(value);
-            },
           ),
+          // DropdownMenu(
+          //   textStyle: const TextStyle(
+          //     color: Colors.blue,
+          //     fontSize: 15,
+          //   ),
+          //   initialSelection: jezik,
+          //   inputDecorationTheme: InputDecorationTheme(
+          //     contentPadding:
+          //         const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          //     labelStyle: const TextStyle(color: Colors.lightBlue),
+          //     enabledBorder: OutlineInputBorder(
+          //       borderSide: const BorderSide(color: Colors.blue, width: 2),
+          //       borderRadius: BorderRadius.circular(6),
+          //     ),
+          //   ),
+          //   dropdownMenuEntries: const <DropdownMenuEntry>[
+          //     DropdownMenuEntry(
+          //       label: "Bosanski",
+          //       value: Jezik.bosanski,
+          //     ),
+          //     DropdownMenuEntry(
+          //       label: "English",
+          //       value: Jezik.engleski,
+          //     ),
+          //   ],
+          //   onSelected: (value) {
+          //     postavke.postaviJezik(value);
+          //   },
+          // ),
           const Spacer(),
           TextButton(
             style: TextButton.styleFrom(
@@ -75,7 +116,7 @@ class _StartPageState extends State<StartPage> {
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) =>  MainPage()),
+                MaterialPageRoute(builder: (context) => const MainPage()),
               );
               postavke.postaviPrviPut(false);
             },

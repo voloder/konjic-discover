@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:discover/backend.dart';
@@ -111,7 +110,7 @@ class _EventsPageState extends State<EventsPage> {
                         Container(
                           decoration: BoxDecoration(
                               color: Colors.black.withValues(alpha: 0.2),
-                              borderRadius: BorderRadius.circular(25)),
+                              borderRadius: BorderRadius.circular(20)),
                         ),
                         // Container(
                         //   decoration: BoxDecoration(

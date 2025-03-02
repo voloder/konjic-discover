@@ -28,7 +28,6 @@ class _MainPageState extends State<MainPage> {
     //   //   currentIndex = _pageController.page!.round();
     //   // });
     // }
-    ;
   }
 
   @override
@@ -77,6 +76,7 @@ class _MainPageState extends State<MainPage> {
               return const PostavkePage();
           }
           ;
+          return null;
         },
         onPageChanged: (value) =>
             Provider.of<Mybottomnavbarprovider>(context, listen: false)

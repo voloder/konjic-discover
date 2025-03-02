@@ -22,7 +22,7 @@ class Lokacija {
   });
 
   factory Lokacija.fromMap(Map<String, dynamic> map) {
-    print(map["kategorija"].id);
+    // print(map["kategorija"].id);
     return Lokacija(
       naziv: map['naziv'],
       opis: map['opis'] ?? "",

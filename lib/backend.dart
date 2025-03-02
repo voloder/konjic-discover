@@ -39,7 +39,7 @@ class Backend {
       try {
         kategorije.add(Kategorija.fromMap(element.data())..id = element.id);
       } catch (e) {
-        print("Greska: ${element.data()}");
+        // print("Greska: ${element.data()}");
         // print(e);
       }
     }
@@ -48,8 +48,8 @@ class Backend {
       try {
         lokacije.add(Lokacija.fromMap(element.data()));
       } catch (e) {
-        print("Greska: ${element.data()}");
-        print(e);
+        // print("Greska: ${element.data()}");
+        // print(e);
       }
     }
 
@@ -57,8 +57,8 @@ class Backend {
       try {
         sekcije.add(Sekcija.fromMap(element.data())..id = element.id);
       } catch (e) {
-        print("Greska: ${element.data()}");
-        print(e);
+        // print("Greska: ${element.data()}");
+        // print(e);
       }
     }
 
@@ -66,8 +66,8 @@ class Backend {
       try {
         dogadjaji.add(Dogadjaj.fromMap(element.data()));
       } catch (e) {
-        print("Greska: ${element.data()}");
-        print(e);
+        // print("Greska: ${element.data()}");
+        // print(e);
       }
     }
 

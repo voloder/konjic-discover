@@ -158,7 +158,7 @@ class _LokacijePageState extends State<LokacijePage> {
                             borderRadius: BorderRadius.circular(10),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
+                                color: Colors.black.withValues(alpha:0.2),
                                 spreadRadius: 0,
                                 blurRadius: 4,
                                 offset: const Offset(

@@ -1,0 +1,22 @@
+{
+  "chooseLanguage": "Sprache wählen",
+  "language": "Sprache",
+  "privacy": "Lesen Sie unsere Datenschutzrichtlinie",
+  "continueButton": "Weiter",
+  "theme": "Thema",
+  "light": "Hell",
+  "dark": "Dunkel",
+  "auto": "Automatisch",
+  "discover": "Entdecken",
+  "settings": "Einstellungen",
+  "events": "Veranstaltungen",
+  "openInMaps": "In Google Maps öffnen",
+  "description": "Beschreibung",
+  "welcomeToKonjic": "Einige Texte und Bilder, die in dieser Anwendung verwendet werden, stammen aus Willkommen in Konjic.",
+  "tapToZoom": "Tippen zum Vorschau",
+  "english":"Englisch",
+  "german":"Deutsch",
+  "turkish":"Türkisch",
+  "bosnian":"Bosnisch",
+  "openMap": "Karte öffnen "
+}

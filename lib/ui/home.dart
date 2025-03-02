@@ -6,8 +6,10 @@ import 'package:discover/entities/kategorija.dart';
 import 'package:discover/entities/sekcija.dart';
 import 'package:discover/ui/lokacije.dart';
 import 'package:discover/postavke.dart';
+import 'package:discover/ui/map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,35 +32,69 @@ class _HomePageState extends State<HomePage> {
   late String naslovImage = titleImages[0];
   int countingIndex = 0;
   late final Backend backend;
+  late double opacity;
+  // late final Postavke postavke;
   late final List<Sekcija> sekcije;
   // late final naslovImage =  "assets/images/konjic.jpg";
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    final backend = Provider.of<Backend>(context, listen: false);
+    // postavke = Provider.of<Postavke>(context, listen: false);
+    backend = Provider.of<Backend>(context, listen: false);
     sekcije = backend.sekcije;
+    startImageSwitchTimer();
   }
 
-  void printAfter3s() {
-    if (countingIndex >= 3) {
-      countingIndex = 0;
-    }
-    Timer(
-      const Duration(seconds: 3),
-      () {
-        setState(() {});
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    opacity = Theme.of(context).brightness == Brightness.dark ? 0.6 : 1;
+  }
 
+  late Timer _timer;
+
+  void startImageSwitchTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      setState(() {
+        countingIndex = (countingIndex + 1) % titleImages.length;
         naslovImage = titleImages[countingIndex];
-        countingIndex++;
-      },
-    );
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  Future<bool> reqPermission() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return Future.error('Location services are disabled.');
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission != LocationPermission.whileInUse &&
+          permission != LocationPermission.always) {
+        return Future.error(
+            'Location permissions are denied (actual value: $permission).');
+      }
+    }
+    return true;
   }
 
   @override
   Widget build(BuildContext context) {
-    // printAfter3s();
+    final localizations = AppLocalizations.of(context)!;
     // double sliverAppBarHeight = 130;
     // super.build(context);
     return Scaffold(
@@ -67,25 +103,57 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             Container(
-              height: 210,
+              height: 190,
               width: double.infinity,
               decoration: BoxDecoration(
                   borderRadius: const BorderRadius.only(
                       bottomLeft: Radius.circular(25),
                       bottomRight: Radius.circular(25)),
                   image: DecorationImage(
+                    opacity: opacity,
                     image: AssetImage(naslovImage),
                     fit: BoxFit.cover,
                     filterQuality: FilterQuality.high,
                   )),
-              child: const Center(
-                child: Text(
-                  "KONJIC",
-                  style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white),
-                ),
+              child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        "KONJIC",
+                        style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      GestureDetector(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(localizations.openInMaps,
+                                  style: const TextStyle(
+                                      fontSize: 15, color: Colors.white)),
+                              const Icon(
+                                Icons.map,
+                                color: Colors.white,
+                                size: 32,
+                              ),
+                            ],
+                          ),
+                          onTap: () async {
+                            bool permissionGranted = await reqPermission();
+                            if (permissionGranted == true) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const MapPage(),
+                                ),
+                              );
+                            }
+                          })
+                    ]),
               ),
             ),
             SekcijeView(sekcije: sekcije)
@@ -174,8 +242,6 @@ class _SekcijeViewState extends State<SekcijeView> {
 
   //  }// Ok glup sam ovo ne treba moze se preko backenda
 
-
-
   @override
   Widget build(BuildContext context) {
     final postavke = Provider.of<Postavke>(context);
@@ -202,10 +268,10 @@ class _SekcijeViewState extends State<SekcijeView> {
                 ),
               ),
               SizedBox(
-                height: 250,
+                height: 230,
                 width: MediaQuery.of(context).size.width,
                 child: PageView.builder(
-                  // shrinkWrap: true,  
+                  // shrinkWrap: true,
 
                   physics: const ScrollPhysics(),
                   scrollDirection: Axis.horizontal,
@@ -214,7 +280,6 @@ class _SekcijeViewState extends State<SekcijeView> {
                   itemBuilder: (context, index) {
                     // sortByPriority(sekcija);
                     final kategorija = sekcija.kategorije[index];
-                    
 
                     return LocationWidget(
                       kategorija: kategorija,

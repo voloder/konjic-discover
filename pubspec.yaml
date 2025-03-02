@@ -28,6 +28,7 @@ dependencies:
   flutter_displaymode: ^0.6.0
   video_player: ^2.9.2
   # flutter_native_splash: ^2.4.4
+  geolocator: ^9.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

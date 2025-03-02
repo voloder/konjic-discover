@@ -158,7 +158,7 @@ class _EventPageState extends State<EventPage> {
                               MarkdownStyleSheet.fromTheme(Theme.of(context))
                                   .copyWith(
                             
-                            textScaler: TextScaler.linear(1.085),
+                            textScaler: const TextScaler.linear(1.085),
                             textAlign: WrapAlignment.spaceEvenly,
                             blockquoteDecoration: BoxDecoration(
                               color: Theme.of(context)

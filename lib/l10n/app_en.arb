@@ -1,5 +1,5 @@
 {
-  "chooseLanguage": "Choose language",
+  "chooseLanguage": "Choose a language",
   "language": "Language",
   "privacy": "Read our privacy policy",
   "continueButton": "Continue",
@@ -12,5 +12,11 @@
   "events": "Events",
   "openInMaps": "Open in Google Maps",
   "description": "Description",
-  "welcomeToKonjic": "Some texts and images used in this application were taken from Welcome to Konjic."
+  "welcomeToKonjic": "Some texts and images used in this application were taken from Welcome to Konjic.",
+  "tapToZoom": "tap to preview",
+  "english":"English",
+  "german":"German",
+  "turkish":"Turkish",
+  "bosnian":"Bosnian",
+  "openMap":"Click To Open Map "
 }

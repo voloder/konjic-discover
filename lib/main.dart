@@ -1,11 +1,8 @@
 import 'package:discover/backend.dart';
 import 'package:discover/postavke.dart';
 import 'package:discover/provider/myBottomNavBarProvider.dart';
-import 'package:discover/ui/main_page.dart';
-import 'package:discover/ui/splash_screen.dart';
 import 'package:discover/ui/start_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -84,7 +81,11 @@ class _MyAppState extends State<MyApp> {
         ),
         locale: postavke.jezik == Jezik.bosanski
             ? const Locale("bs")
-            : const Locale("en"),
+            : postavke.jezik == Jezik.engleski
+                ? const Locale("en")
+                : postavke.jezik == Jezik.njemacki
+                    ? const Locale("de")
+                    : const Locale("tr"),
         localizationsDelegates: const [
           AppLocalizations.delegate,
           ...GlobalMaterialLocalizations.delegates
@@ -92,6 +93,8 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: const [
           Locale("en"),
           Locale("bs"),
+          Locale("de"),
+          Locale("tr"),
         ],
         darkTheme: ThemeData(
           fontFamily: "Montserrat",
@@ -102,7 +105,8 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
           brightness: Brightness.dark,
         ),
-        home: postavke.prviPut! ? const StartPage() : const SplashScreen()
+        // home: postavke.prviPut! ? const StartPage() : const MainPage()
+        home: const StartPage(),
         // home: const HomePage(),
         );
   }

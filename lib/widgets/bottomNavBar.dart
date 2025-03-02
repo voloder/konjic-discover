@@ -24,7 +24,7 @@ class Bottomnavbar extends StatelessWidget {
       fixedColor: Theme.of(context).colorScheme.inverseSurface,
       backgroundColor: Theme.of(context).colorScheme.surface,
       unselectedItemColor:
-          Theme.of(context).colorScheme.inverseSurface.withOpacity(0.4),
+          Theme.of(context).colorScheme.inverseSurface.withValues(alpha:0.4),
       items: [
         BottomNavigationBarItem(
           icon: const Icon(

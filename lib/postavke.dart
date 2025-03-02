@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum Jezik {
   bosanski,
   engleski,
+  njemacki,
+  turski,
 }
 
 enum Tema {

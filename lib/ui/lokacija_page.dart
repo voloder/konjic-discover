@@ -90,11 +90,8 @@ class _LokacijaPageState extends State<LokacijaPage> {
                       ),
                     ),
                     Center(
-                      child: jezik ==
-                              Jezik
-                                  .bosanski //Ovo se obatali ako se doda jos jedan jezik :D (nez kako radi lokalizacija <3)
-                          ? (const Text("Klikni za pregled."))
-                          : (const Text("Tap to preview.")),
+                      child: Text(localizations.tapToZoom,
+                          style: const TextStyle(fontSize: 16)),
                     ),
                   ],
                 ),
@@ -131,7 +128,7 @@ class _LokacijaPageState extends State<LokacijaPage> {
                   padding: const EdgeInsets.all(8.0),
                   child: TextButton(
                     style: TextButton.styleFrom(
-                      backgroundColor: Colors.blue.withOpacity(0.1),
+                      backgroundColor: Colors.blue.withValues(alpha:0.1),
                     ),
                     onPressed: () {
                       openMap(widget.lokacija.lat!, widget.lokacija.long!);
