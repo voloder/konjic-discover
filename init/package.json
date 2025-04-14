@@ -23,6 +23,7 @@
   },
   "scripts": {
     "dev": "vite --mode development",
+    "host": "vite --host",
     "build": "vite build && tsc",
     "preview": "vite build && vite preview",
     "deploy": "vite build && firebase deploy --only hosting --project konjic-discover"
