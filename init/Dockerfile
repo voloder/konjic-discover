@@ -16,5 +16,8 @@ COPY . .
 # Expose the port your app runs on
 EXPOSE 5173
 
+RUN ls -la /app
+RUN cat package.json
+
 # Run the development server
-CMD ["npm", "run"]
+CMD ["npm", "run", "dev"]
