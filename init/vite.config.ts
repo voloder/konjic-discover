@@ -13,5 +13,8 @@ export default defineConfig({
     optimizeDeps: { include: ["react/jsx-runtime"] },
     plugins: [
         react({})
-    ]
+    ],
+    server: {
+        allowedHosts: ["discover.xudev.io"],
+    }
 })
