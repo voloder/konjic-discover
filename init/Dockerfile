@@ -11,13 +11,10 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the rest of the application
-COPY . .
+COPY init ./
 
 # Expose the port your app runs on
 EXPOSE 5173
-
-RUN echo $(ls -la /app)
-RUN echo $(cat package.json)
 
 # Run the development server
 CMD ["npm", "run", "dev"]
