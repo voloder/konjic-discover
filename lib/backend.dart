@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:discover/entities/dogadjaj.dart';
 import 'package:discover/entities/kategorija.dart';
+import 'package:discover/entities/konjic_info.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'entities/lokacija.dart';
@@ -13,6 +14,7 @@ class Backend {
   List<Lokacija> lokacije = [];
   List<Sekcija> sekcije = [];
   List<Dogadjaj> dogadjaji = [];
+  List<KonjicInfo> konjicInfo = [];
 
   Future<void> initialize() async {
     await Firebase.initializeApp(
@@ -34,7 +36,10 @@ class Backend {
         await FirebaseFirestore.instance.collection("sekcije").get();
     final dogadjajiSnapshot =
         await FirebaseFirestore.instance.collection("dogadjaji").get();
+    final konjicInfoSnapshot =
+        await FirebaseFirestore.instance.collection("konjic_info").get();
 
+    
     for (var element in kategorijeSnapshot.docs) {
       try {
         kategorije.add(Kategorija.fromMap(element.data())..id = element.id);
@@ -47,6 +52,7 @@ class Backend {
     for (var element in lokacijeSnapshot.docs) {
       try {
         lokacije.add(Lokacija.fromMap(element.data()));
+        // print(Lokacija.fromMap(element.data()));
       } catch (e) {
         // print("Greska: ${element.data()}");
         // print(e);
@@ -84,6 +90,19 @@ class Backend {
     }
 
     sekcije.sort((a, b) => (b.priority ?? 0).compareTo(a.priority ?? 0));
+
+    for (var element in konjicInfoSnapshot.docs) {
+        // print("OVOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+      try {
+        konjicInfo.add(KonjicInfo.fromMap(element.data()));
+        // print(KonjicInfo.fromMap(element.data()));
+        // print(konjicInfo.length);
+        // print("OVOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+      } catch (e) {
+        // print("Greska: ${element.data()}");
+        // print(e);
+      }
+    }
   }
 
   // void test() {
@@ -95,7 +114,7 @@ class Backend {
   Future<void> precacheImagesForKategorija(context) async {
     for (Kategorija kategorija in kategorije) {
       // print("precached kategorijas' images");
-      
+
       precacheImage(CachedNetworkImageProvider(kategorija.slika!), context);
       // print(kategorija.slika);
     }

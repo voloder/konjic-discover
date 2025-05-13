@@ -1,6 +1,6 @@
 import 'package:discover/provider/myBottomNavBarProvider.dart';
-import 'package:discover/ui/events_page.dart';
 import 'package:discover/ui/home.dart';
+import 'package:discover/ui/map_page.dart';
 import 'package:discover/ui/postavke_page.dart';
 import 'package:discover/widgets/bottomNavBar.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +71,7 @@ class _MainPageState extends State<MainPage> {
             case 1:
               return const HomePage();
             case 0:
-              return const EventsPage();
+              return const MapPage();
             case 2:
               return const PostavkePage();
           }
@@ -83,8 +83,11 @@ class _MainPageState extends State<MainPage> {
                 .setvalue(value),
       ),
       bottomNavigationBar:
+        // BottomNavigationBar(
+      
           Bottomnavbar(onTapped: onTap, localizations: localizations),
     );
+
   }
 }
 

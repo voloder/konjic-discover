@@ -104,6 +104,7 @@ class _MyAppState extends State<MyApp> {
               surfaceTint: Colors.transparent),
           useMaterial3: true,
           brightness: Brightness.dark,
+          
         ),
         // home: postavke.prviPut! ? const StartPage() : const MainPage()
         home: const StartPage(),

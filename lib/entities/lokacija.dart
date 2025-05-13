@@ -1,8 +1,14 @@
+import '../postavke.dart';
+
 class Lokacija {
   final String naziv;
   final String nazivEn;
+  final String nazivDe;
+  final String nazivTr;
   final String opis;
   final String opisEn;
+  final String opisDe;
+  final String opisTr;
   final List<String> slike;
   final String kategorija;
   final Map<String, dynamic> detalji;
@@ -19,11 +25,44 @@ class Lokacija {
     required this.detalji,
     required this.lat,
     required this.long,
+    required this.nazivDe,
+    required this.opisDe,
+    required this.opisTr,
+    required this.nazivTr,
   });
 
+  String getLocalizedNaziv(Jezik jezik) {
+    switch (jezik) {
+      case Jezik.bosanski:
+        return naziv;
+      case Jezik.engleski:
+        return nazivEn;
+      case Jezik.njemacki:
+        return nazivDe;
+      case Jezik.turski:
+        return nazivTr;
+    }
+  }
+
+  String getLocalizedOpis(Jezik jezik) {
+      switch (jezik) {
+        case Jezik.bosanski:
+          return opis;
+        case Jezik.engleski:
+          return opisEn;
+        case Jezik.njemacki:
+          return opisDe;
+        case Jezik.turski:
+          return opisTr;
+      }
+    }
+
   factory Lokacija.fromMap(Map<String, dynamic> map) {
-    // print(map["kategorija"].id);
     return Lokacija(
+      nazivDe: map['naziv_de'] ?? "naziv_de",
+      opisDe: map['opis_de']  ?? "opisDe",
+      nazivTr: map['naziv_tr'] ?? "naziv_tr",
+      opisTr: map['opis_tr'] ?? "opisTr",
       naziv: map['naziv'],
       opis: map['opis'] ?? "",
       nazivEn: map['naziv_en'],
