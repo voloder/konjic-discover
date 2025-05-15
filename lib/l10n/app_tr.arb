@@ -1,0 +1,22 @@
+{
+  "chooseLanguage": "Dil seçin",
+  "language": "Dil",
+  "privacy": "Gizlilik politikamızı okuyun",
+  "continueButton": "Devam et",
+  "theme": "Tema",
+  "light": "Açık",
+  "dark": "Koyu",
+  "auto": "Otomatik",
+  "discover": "Keşfet",
+  "settings": "Ayarlar",
+  "events": "Harita",
+  "openInMaps": "Google Haritalar'da aç",
+  "description": "Açıklama",
+  "welcomeToKonjic": "Bu uygulamada kullanılan bazı metinler ve resimler 'Welcome to Konjic' kitabından alınmıştır.",
+  "tapToZoom": "Önizlemek için dokunun",
+  "english":"English",
+  "german":"Almanca",
+  "turkish":"Turkish",
+  "bosnian":"Bosnian",
+  "openMap": "Haritayı Aç "
+}

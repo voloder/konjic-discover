@@ -25,7 +25,10 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.7.1
-
+  flutter_displaymode: ^0.6.0
+  video_player: ^2.9.2
+  # flutter_native_splash: ^2.4.4
+  geolocator: ^9.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -35,7 +38,9 @@ flutter:
   uses-material-design: true
   generate: true
   assets:
+  
     - assets/images/
+    - assets/videos/
   fonts:
     - family: Montserrat
       fonts:
@@ -43,3 +48,17 @@ flutter:
     - family: Montserrat-Light
       fonts:
         - asset: assets/fonts/Montserrat-Light.ttf
+
+
+# flutter_native_splash:
+#   android: false
+#   ios: false
+#   web: false
+
+#   background_image: "assets/images/ikonica.png"
+
+#   android_12:
+#    color: "#d4e4ed"
+#    image: "assets/images/ikonica.png"
+#    branding: "assets/images/ikonica.png"
+

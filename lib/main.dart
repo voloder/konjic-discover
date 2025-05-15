@@ -1,9 +1,8 @@
 import 'package:discover/backend.dart';
 import 'package:discover/postavke.dart';
-import 'package:discover/ui/main_page.dart';
+import 'package:discover/provider/myBottomNavBarProvider.dart';
 import 'package:discover/ui/start_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -27,14 +26,14 @@ void main() async {
     ));
     return;
   }
+  
   final postavke = Postavke();
-
   await postavke.ucitaj();
-
-
 
   runApp(MultiProvider(
     providers: [
+      ChangeNotifierProvider(
+          create: (context) => Mybottomnavbarprovider(currentIndex: 1)),
       ChangeNotifierProvider.value(value: postavke),
       Provider.value(value: backend)
     ],
@@ -43,7 +42,6 @@ void main() async {
 }
 
 class MyApp extends StatefulWidget {
-
   const MyApp({super.key});
 
   @override
@@ -51,6 +49,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late final Backend backend;
+
   @override
   void initState() {
     final backend = Provider.of<Backend>(context, listen: false);
@@ -63,7 +63,6 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final postavke = Provider.of<Postavke>(context);
-
     return MaterialApp(
         // showPerformanceOverlay: true,
         debugShowCheckedModeBanner: false,
@@ -77,12 +76,16 @@ class _MyAppState extends State<MyApp> {
           fontFamily: "Montserrat",
           colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.blue, surfaceTint: Colors.white),
-          useMaterial3: false,
+          useMaterial3: true,
           brightness: Brightness.light,
         ),
         locale: postavke.jezik == Jezik.bosanski
             ? const Locale("bs")
-            : const Locale("en"),
+            : postavke.jezik == Jezik.engleski
+                ? const Locale("en")
+                : postavke.jezik == Jezik.njemacki
+                    ? const Locale("de")
+                    : const Locale("tr"),
         localizationsDelegates: const [
           AppLocalizations.delegate,
           ...GlobalMaterialLocalizations.delegates
@@ -90,6 +93,8 @@ class _MyAppState extends State<MyApp> {
         supportedLocales: const [
           Locale("en"),
           Locale("bs"),
+          Locale("de"),
+          Locale("tr"),
         ],
         darkTheme: ThemeData(
           fontFamily: "Montserrat",
@@ -99,8 +104,10 @@ class _MyAppState extends State<MyApp> {
               surfaceTint: Colors.transparent),
           useMaterial3: true,
           brightness: Brightness.dark,
+          
         ),
-        home: postavke.prviPut! ? const StartPage() : const MainPage()
+        // home: postavke.prviPut! ? const StartPage() : const MainPage()
+        home: const StartPage(),
         // home: const HomePage(),
         );
   }

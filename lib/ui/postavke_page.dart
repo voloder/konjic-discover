@@ -1,4 +1,5 @@
 import 'package:discover/postavke.dart';
+import 'package:discover/ui/language_model.dart';
 import 'package:discover/ui/privacy_policy.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,10 +14,6 @@ class PostavkePage extends StatefulWidget {
 }
 
 class _PostavkePageState extends State<PostavkePage> {
-  Map<Jezik, String> jezici = {
-    Jezik.bosanski: "Bosanski",
-    Jezik.engleski: "English",
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -29,20 +26,26 @@ class _PostavkePageState extends State<PostavkePage> {
       Tema.auto: localizations.auto
     };
 
+  Map<Jezik, LanguageModel> jezici = {
+    Jezik.bosanski: LanguageModel(countryFlag: "🇧🇦", languageName: localizations.bosnian),
+    Jezik.engleski: LanguageModel(countryFlag: "🇺🇸", languageName: localizations.english),
+    Jezik.turski: LanguageModel(countryFlag: "🇹🇷", languageName: localizations.turkish),
+    Jezik.njemacki: LanguageModel(countryFlag: "🇩🇪", languageName: localizations.german),
+  };
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Text(localizations.events),
-        // flexibleSpace: ClipRect(
-        //   child: BackdropFilter(
-        //     filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        //     child: Container(
-        //       color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.8),
-        //     ),
-        //   ),
-        // ),
+        elevation: 0,
+        title: Text(
+          localizations.settings,
+          style: TextStyle(
+              color: Theme.of(context).colorScheme.inverseSurface,
+              fontSize: 24),
+        ),
       ),
-        body: Column(
+      body: SingleChildScrollView(
+        child: Column(
           children: [
             Text(localizations.language),
             Padding(
@@ -56,16 +59,21 @@ class _PostavkePageState extends State<PostavkePage> {
                     side: BorderSide(
                         color: Theme.of(context).colorScheme.onSurface),
                     borderRadius: BorderRadius.circular(10)),
-                title: Text(jezici[postavke.jezik]!),
+                title: Text(jezici[postavke.jezik]!.languageName),
                 children: jezici.entries
+                    .where((e) => e.key != postavke.jezik)
                     .map((e) => ListTile(
-                          title: Text(e.value),
-                          onTap: () {
-                            setState(() {
-                              postavke.postaviJezik(e.key);
-                            });
-                          },
-                        ))
+                      trailing: Text(
+                        e.value.countryFlag,
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                      title: Text(e.value.languageName),
+                      onTap: () {
+                        setState(() {
+                        postavke.postaviJezik(e.key);
+                        });
+                      },
+                      ))
                     .toList(),
               ),
             ),
@@ -94,13 +102,13 @@ class _PostavkePageState extends State<PostavkePage> {
                     .toList(),
               ),
             ),
-            const Spacer(flex: 3),
+            const SizedBox(height: 24),
             GestureDetector(
               onTap: () {
                 launchUrl(Uri.parse("https://welcometokonjic.ba/"));
               },
               child: Container(
-                color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+                color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.05),
                 height: 150,
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -124,25 +132,28 @@ class _PostavkePageState extends State<PostavkePage> {
                 ),
               ),
             ),
-            const Spacer(),
+            const SizedBox(height: 24),
             GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(localizations.privacy),
-                ),
-                onTap: () {
-                  showAboutDialog(
-                    context: context,
-                    applicationName: "Konjic Discover",
-                    applicationVersion:
-                        "Made with ❤️ by students of Srednja škola Konjic",
-                    applicationIcon: Center(
-                        child: Image.asset("assets/images/ikonica.png",
-                            height: 60)),
-                    children: [const PrivacyPolicy()],
-                  );
-                })
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(localizations.privacy),
+              ),
+              onTap: () {
+                showAboutDialog(
+                  context: context,
+                  applicationName: "Konjic Discover",
+                  applicationVersion:
+                      "Made with ❤️ by students of Srednja škola Konjic",
+                  applicationIcon: Center(
+                      child:
+                          Image.asset("assets/images/ikonica.png", height: 60)),
+                  children: [const PrivacyPolicy()],
+                );
+              },
+            ),
           ],
-        ));
+        ),
+      ),
+    );
   }
 }

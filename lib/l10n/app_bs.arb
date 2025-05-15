@@ -9,8 +9,14 @@
   "auto": "Auto",
   "discover": "Discover",
   "settings": "Postavke",
-  "events": "Događaji",
+  "events": "Mapa",
   "openInMaps": "Otvori u Google Maps",
   "description": "Opis",
-  "welcomeToKonjic": "Neki tekstovi i slike korištene u aplikaciji su preuzete sa Welcome to Konjic."
+  "welcomeToKonjic": "Neki tekstovi i slike korištene u aplikaciji su preuzete sa Welcome to Konjic.",
+  "tapToZoom": "klikni za pregled",
+  "english":"Engleski",
+  "german":"Njemački",
+  "turkish":"Turski",
+  "bosnian":"Bosanski",
+  "openMap":"Otvori Mapu "
 }
